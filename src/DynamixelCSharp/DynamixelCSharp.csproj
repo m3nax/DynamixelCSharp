@@ -7,4 +7,8 @@
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+  </ItemGroup>
+
 </Project>

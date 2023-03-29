@@ -112,6 +112,12 @@ namespace DynamixelCSharp.Channels
         {
             var response = new byte[responseLength];
 
+            // If channel is not open then open it.
+            if (Status != DynamixelChannelStatus.Open)
+            {
+                this.Open();
+            }
+
             lock (comLock)
             {
                 this.serialPort.Write(command, 0, command.Length);

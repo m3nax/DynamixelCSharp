@@ -6,11 +6,11 @@ namespace DynamixelCSharp.Channels
     {
         /// <summary>
         /// Waits for a specific amount of data to be present in the read buffer.
-        /// If the data is not present in the buffer within the timeout throw an exception.
+        /// If the data is not present in the buffer within the timeout throw an <see cref="TimeoutException"/>.
         /// </summary>
-        /// <param name="port"></param>
-        /// <param name="bytesAmount"></param>
-        /// <param name="timeout"></param>
+        /// <param name="port">Serial port.</param>
+        /// <param name="bytesAmount">Amount of bytes to wait.</param>
+        /// <param name="timeout">Timeout.</param>
         public static void WaitForData(this SerialPort port, int bytesAmount, TimeSpan timeout)
         {
             var timeoutDatetime = DateTime.Now.Add(timeout);

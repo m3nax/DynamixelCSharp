@@ -1,7 +1,7 @@
 ﻿
 using DynamixelCSharp.Channels;
 
-// Create and open serial channel on COM3 with baud rate 1,000,000
+// Create and open serial communication channel on COM3 with baud rate 1,000,000
 var channel = new DynamixelSerialChannel("COM3", 1000000);
 channel.Open();
 

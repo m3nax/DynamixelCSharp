@@ -1,8 +1,8 @@
 ﻿
 using DynamixelCSharp.Channels;
 
+// Create and open serial channel on COM3 with baud rate 1,000,000
 var channel = new DynamixelSerialChannel("COM3", 1000000);
-
 channel.Open();
 
 // Protocol 1.0 ping command for device with id 1

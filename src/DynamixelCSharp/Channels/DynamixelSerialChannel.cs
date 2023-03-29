@@ -26,6 +26,18 @@ namespace DynamixelCSharp.Channels
         /// <param name="baudRate">Baud rate of serial port.</param>
         /// <exception cref="NotImplementedException"></exception>
         public DynamixelSerialChannel(string portName, int baudRate)
+            : this(portName, baudRate, TimeSpan.FromMilliseconds(5))
+        {
+        }
+
+        /// <summary>
+        /// Create a new serial channel.
+        /// </summary>
+        /// <param name="portName">Name of serial port.</param>
+        /// <param name="baudRate">Baud rate of serial port.</param>
+        /// <param name="readTimeout">Read timeout.</param>
+        /// <exception cref="NotImplementedException"></exception>
+        public DynamixelSerialChannel(string portName, int baudRate, TimeSpan readTimeout)
         {
             if (string.IsNullOrWhiteSpace(portName))
             {
@@ -37,8 +49,14 @@ namespace DynamixelCSharp.Channels
                 throw new ArgumentOutOfRangeException(nameof(baudRate), $"'{nameof(baudRate)}' cannot be less or equal to zero.");
             }
 
+            if (readTimeout <= TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(readTimeout), $"'{nameof(readTimeout)}' cannot be less or equal to zero.");
+            }
+
             PortName = portName;
             BaudRate = baudRate;
+            ReadTimeout = readTimeout;
         }
 
         /// <inheritdoc/>
@@ -53,6 +71,11 @@ namespace DynamixelCSharp.Channels
         /// Serial port baud rate.
         /// </summary>
         public int BaudRate { get; }
+
+        /// <summary>
+        /// Read timeout.
+        /// </summary>
+        public TimeSpan ReadTimeout { get; }
 
         /// <inheritdoc/>
         public void Close()
@@ -93,7 +116,8 @@ namespace DynamixelCSharp.Channels
             {
                 this.serialPort.Write(command, 0, command.Length);
 
-                // TODO: improve data read
+                serialPort.WaitForData(responseLength, TimeSpan.FromMilliseconds(10));
+
                 serialPort.Read(response, 0, responseLength);
             }
 

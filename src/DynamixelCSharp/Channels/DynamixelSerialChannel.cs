@@ -26,7 +26,7 @@ namespace DynamixelCSharp.Channels
         /// <param name="baudRate">Baud rate of serial port.</param>
         /// <exception cref="NotImplementedException"></exception>
         public DynamixelSerialChannel(string portName, int baudRate)
-            : this(portName, baudRate, TimeSpan.FromMilliseconds(5))
+            : this(portName, baudRate, TimeSpan.FromMilliseconds(50))
         {
         }
 
@@ -122,7 +122,7 @@ namespace DynamixelCSharp.Channels
             {
                 this.serialPort.Write(command, 0, command.Length);
 
-                serialPort.WaitForData(responseLength, TimeSpan.FromMilliseconds(10));
+                serialPort.WaitForData(responseLength, this.ReadTimeout);
 
                 serialPort.Read(response, 0, responseLength);
             }

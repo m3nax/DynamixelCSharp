@@ -71,6 +71,38 @@ namespace DynamixelCSharp.Protocol10
         }
 
         /// <summary>
+        /// Write data in the given location.
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="location"></param>
+        /// <param name="values"></param>
+        public void Write(byte deviceId, MemoryLocation location, params byte[] values)
+        {
+            if (values.Length != location.Length)
+            {
+                throw new Exception();
+            }
+
+            byte instruction = 0x03;
+            byte length = (byte)(0x03 + location.Length);
+            byte checksum = CalculateChecksum(deviceId, length, instruction, new byte[] { location.Address }.Concat(values).ToArray());
+            byte responseLength = 6;
+
+            byte[] command = new byte[] { Header1, Header2, deviceId, length, instruction, location.Address }
+                .Concat(values)
+                .Concat(new byte[] { checksum })
+                .ToArray();
+
+            var response = dynamixelChannel.Send(command, responseLength);
+
+            // Check for errors
+            if (response[4] != 0)
+            {
+                throw new Exception();
+            }
+        }
+
+        /// <summary>
         /// Calculate the command checksum
         /// </summary>
         /// <param name="deviceId"></param>

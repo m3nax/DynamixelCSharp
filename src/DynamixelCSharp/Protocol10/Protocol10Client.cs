@@ -10,7 +10,6 @@ namespace DynamixelCSharp.Protocol10
         private const byte Header1 = 0xFF;
         private const byte Header2 = 0xFF;
 
-
         private readonly IDynamixelChannel dynamixelChannel;
 
         /// <summary>
@@ -38,11 +37,7 @@ namespace DynamixelCSharp.Protocol10
 
             var response = dynamixelChannel.Send(command, responseLength);
 
-            // Check for errors
-            if (response[4] != 0)
-            {
-                throw new Exception();
-            }
+            ThrowIfStatusErrorOccurred(response[4]);
         }
 
         /// <summary>
@@ -61,11 +56,7 @@ namespace DynamixelCSharp.Protocol10
 
             var response = dynamixelChannel.Send(command, responseLength);
 
-            // Check for errors
-            if (response[4] != 0)
-            {
-                throw new Exception();
-            }
+            ThrowIfStatusErrorOccurred(response[4]);
 
             return response[5..6];
         }
@@ -95,11 +86,7 @@ namespace DynamixelCSharp.Protocol10
 
             var response = dynamixelChannel.Send(command, responseLength);
 
-            // Check for errors
-            if (response[4] != 0)
-            {
-                throw new Exception();
-            }
+            ThrowIfStatusErrorOccurred(response[4]);
         }
 
         /// <summary>
@@ -114,6 +101,52 @@ namespace DynamixelCSharp.Protocol10
             var checksum = ~(deviceId + length + instruction + parameters.Sum(x => x));
 
             return (byte)checksum;
+        }
+
+        /// <summary>
+        /// Throw an exception if an error occurred.
+        /// </summary>
+        /// <param name="errorByte"></param>
+        /// <returns></returns>
+        private static void ThrowIfStatusErrorOccurred(byte errorByte)
+        {
+            if (errorByte == StatusErrors.None)
+            {
+                return;
+            }
+
+            if ((errorByte & StatusErrors.InputVoltageError) != 0)
+            {
+                throw new Exception("InputVoltageError");
+            }
+            else if ((errorByte & StatusErrors.AngleLimitError) != 0)
+            {
+                throw new Exception("AngleLimitError");
+            }
+            else if ((errorByte & StatusErrors.OverheatingError) != 0)
+            {
+                throw new Exception("OverheatingError");
+            }
+            else if ((errorByte & StatusErrors.RangeError) != 0)
+            {
+                throw new Exception("RangeError");
+            }
+            else if ((errorByte & StatusErrors.ChecksumError) != 0)
+            {
+                throw new Exception("ChecksumError");
+            }
+            else if ((errorByte & StatusErrors.OverloadError) != 0)
+            {
+                throw new Exception("OverloadError");
+            }
+            else if ((errorByte & StatusErrors.InstructionError) != 0)
+            {
+                throw new Exception("InstructionError");
+            }
+            else if ((errorByte & StatusErrors.Undefined) != 0)
+            {
+                throw new Exception("Undefined");
+            }
         }
     }
 }

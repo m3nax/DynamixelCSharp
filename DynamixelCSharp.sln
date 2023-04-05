@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol10Ping", "examples\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol10ReadTemperature", "examples\Protocol10ReadTemperature\Protocol10ReadTemperature.csproj", "{06F1B141-68A4-4468-B451-239C618B8157}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol10Move", "Protocol10Move\Protocol10Move.csproj", "{408E3B40-F834-4EBA-9BFD-AC4F3AFEAF20}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol10Move", "examples\Protocol10Move\Protocol10Move.csproj", "{408E3B40-F834-4EBA-9BFD-AC4F3AFEAF20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

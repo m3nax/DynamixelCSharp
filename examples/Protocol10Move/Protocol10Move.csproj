@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\DynamixelCSharp\DynamixelCSharp.csproj" />
+    <ProjectReference Include="..\..\src\DynamixelCSharp\DynamixelCSharp.csproj" />
   </ItemGroup>
 
 </Project>

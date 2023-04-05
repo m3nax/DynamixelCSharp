@@ -46,7 +46,7 @@
         public const byte InstructionError = 64;
 
         /// <summary>
-        /// Unused/Undefined.
+        /// Unused/Undefined error.
         /// </summary>
         public const byte Undefined = 128;
     }

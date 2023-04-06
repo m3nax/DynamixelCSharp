@@ -40,17 +40,17 @@ namespace DynamixelCSharp.Protocol10
         /// <summary>
         /// Id of the device to send the instruction to.
         /// </summary>
-        public byte DeviceId { get; private set; }
+        public byte DeviceId { get; private init; }
 
         /// <summary>
         /// Instruction to send to the device.
         /// </summary>
-        public byte Instruction { get; private set; }
+        public byte Instruction { get; private init; }
 
         /// <summary>
         /// Parameters of the instruction.
         /// </summary>
-        public byte[] Parameters { get; private set; }
+        public byte[] Parameters { get; private init; }
 
         /// <summary>
         /// Length of the instruction packet.
@@ -72,6 +72,7 @@ namespace DynamixelCSharp.Protocol10
             yield return DeviceId;
             yield return Length;
             yield return Instruction;
+
             foreach (byte b in Parameters) yield return b;
         }
 

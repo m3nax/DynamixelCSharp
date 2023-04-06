@@ -53,6 +53,7 @@ namespace DynamixelCSharp.Protocol10
 
             ThrowIfStatusErrorOccurred(response[4]);
 
+            // TODO: handle 1 byte response and 2 byte response
             return response[5..6];
         }
 
@@ -66,7 +67,7 @@ namespace DynamixelCSharp.Protocol10
         {
             if (values.Length != location.Length)
             {
-                throw new Exception();
+                throw new Exception("Memory location size is smaller than size of data to write");
             }
 
             if (!location.AccessMode.HasFlag(AccessMode.Write))

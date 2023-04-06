@@ -8,11 +8,6 @@ namespace DynamixelCSharp.Protocol10
     /// </summary>
     public class Protocol10Client
     {
-        private const byte Header1 = 0xFF;
-        private const byte Header2 = 0xFF;
-
-        private static readonly byte[] Header = new byte[2] { 0xFF, 0xFF };
-
         private readonly IDynamixelChannel dynamixelChannel;
 
         /// <summary>
@@ -31,12 +26,8 @@ namespace DynamixelCSharp.Protocol10
         /// <param name="deviceId">Device id.</param>
         public void Ping(byte deviceId)
         {
-            byte instruction = 0x01;
-            byte length = 0x02;
-            byte checksum = Checksum.CalculateFrom(deviceId, length, instruction);
+            byte[] command = new InstructionPacket(deviceId, Instructions.Ping);
             byte responseLength = 6;
-
-            byte[] command = new byte[] { Header1, Header2, deviceId, length, instruction, checksum };
 
             var response = dynamixelChannel.Send(command, responseLength);
 
@@ -55,12 +46,8 @@ namespace DynamixelCSharp.Protocol10
                 throw new InvalidOperationException("Memory location isn't readable");
             }
 
-            byte instruction = 0x02;
-            byte length = 0x04;
-            byte checksum = Checksum.CalculateFrom(deviceId, length, instruction, location.Address, location.Length);
+            byte[] command = new InstructionPacket(deviceId, Instructions.Read, location.Address, location.Length);
             byte responseLength = 7;
-
-            byte[] command = new byte[] { Header1, Header2, deviceId, length, instruction, location.Address, location.Length, checksum };
 
             var response = dynamixelChannel.Send(command, responseLength);
 
@@ -87,16 +74,9 @@ namespace DynamixelCSharp.Protocol10
                 throw new InvalidOperationException("Memory location isn't writable");
             }
 
-            byte instruction = 0x03;
-
-            var payloadLength = (byte)(0x03 + location.Length);
-            var payload = new byte[] { deviceId, payloadLength, instruction, location.Address }.Concat(values);
-
-            var checksum = Checksum.CalculateFrom(payload);
-
-            byte[] command = Header.Concat(payload).Append(checksum).ToArray();
-
+            byte[] command = new InstructionPacket(deviceId, Instructions.Write, location.Address, values);
             var responseLength = 6;
+
             var response = dynamixelChannel.Send(command, responseLength);
 
             ThrowIfStatusErrorOccurred(response[4]);

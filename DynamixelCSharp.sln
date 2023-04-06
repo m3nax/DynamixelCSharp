@@ -11,11 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{C1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerialChannelReadWrite", "examples\SerialChannelReadWrite\SerialChannelReadWrite.csproj", "{224E11F0-F49E-4E76-90CD-195EE4D5868E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol10Ping", "examples\Protocol10Ping\Protocol10Ping.csproj", "{20E36054-6AC9-4479-B272-50878D2FF9B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protocol10Ping", "examples\Protocol10Ping\Protocol10Ping.csproj", "{20E36054-6AC9-4479-B272-50878D2FF9B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol10ReadTemperature", "examples\Protocol10ReadTemperature\Protocol10ReadTemperature.csproj", "{06F1B141-68A4-4468-B451-239C618B8157}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protocol10ReadTemperature", "examples\Protocol10ReadTemperature\Protocol10ReadTemperature.csproj", "{06F1B141-68A4-4468-B451-239C618B8157}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol10Move", "examples\Protocol10Move\Protocol10Move.csproj", "{408E3B40-F834-4EBA-9BFD-AC4F3AFEAF20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protocol10Move", "examples\Protocol10Move\Protocol10Move.csproj", "{408E3B40-F834-4EBA-9BFD-AC4F3AFEAF20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{211F7B6D-2E84-4AEE-BEF1-830B07B4DB95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

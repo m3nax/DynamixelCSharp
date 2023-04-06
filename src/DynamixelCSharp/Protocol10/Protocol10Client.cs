@@ -1,4 +1,5 @@
 ﻿using DynamixelCSharp.Channels;
+using DynamixelCSharp.Exceptions;
 
 namespace DynamixelCSharp.Protocol10
 {
@@ -115,35 +116,35 @@ namespace DynamixelCSharp.Protocol10
 
             if ((errorByte & StatusErrors.InputVoltageError) != 0)
             {
-                throw new Exception("InputVoltageError");
+                throw new DynamixelException("InputVoltageError");
             }
             else if ((errorByte & StatusErrors.AngleLimitError) != 0)
             {
-                throw new Exception("AngleLimitError");
+                throw new DynamixelException("AngleLimitError");
             }
             else if ((errorByte & StatusErrors.OverheatingError) != 0)
             {
-                throw new Exception("OverheatingError");
+                throw new DynamixelException("OverheatingError");
             }
             else if ((errorByte & StatusErrors.RangeError) != 0)
             {
-                throw new Exception("RangeError");
+                throw new DynamixelException("RangeError");
             }
             else if ((errorByte & StatusErrors.ChecksumError) != 0)
             {
-                throw new Exception("ChecksumError");
+                throw new DynamixelException("ChecksumError");
             }
             else if ((errorByte & StatusErrors.OverloadError) != 0)
             {
-                throw new Exception("OverloadError");
+                throw new DynamixelException("OverloadError");
             }
             else if ((errorByte & StatusErrors.InstructionError) != 0)
             {
-                throw new Exception("InstructionError");
+                throw new DynamixelException("InstructionError");
             }
             else if ((errorByte & StatusErrors.Undefined) != 0)
             {
-                throw new Exception("Undefined");
+                throw new DynamixelException("Undefined");
             }
         }
     }

@@ -8,6 +8,7 @@ namespace DynamixelCSharp.Protocol10
     /// </summary>
     public class Protocol10Client
     {
+        private readonly byte deviceIdBroadcast = 0xFE;
         private readonly IDynamixelChannel dynamixelChannel;
 
         /// <summary>
@@ -81,6 +82,44 @@ namespace DynamixelCSharp.Protocol10
             var response = dynamixelChannel.Send(command, responseLength);
 
             ThrowIfStatusErrorOccurred(response[4]);
+        }
+
+        /// <summary>
+        /// Write data in the given location.
+        /// </summary>
+        /// <param name="deviceId"></param>
+        /// <param name="location"></param>
+        /// <param name="values"></param>
+        public void RegWrite(byte deviceId, MemoryLocation location, params byte[] values)
+        {
+            if (values.Length != location.Length)
+            {
+                throw new Exception("Memory location size is smaller than size of data to write");
+            }
+
+            if (!location.AccessMode.HasFlag(AccessMode.Write))
+            {
+                throw new InvalidOperationException("Memory location isn't writable");
+            }
+
+            byte[] command = new InstructionPacket(deviceId, Instructions.RegWrite, location.Address, values);
+            var responseLength = 6;
+
+            var response = dynamixelChannel.Send(command, responseLength);
+
+            ThrowIfStatusErrorOccurred(response[4]);
+        }
+
+        /// <summary>
+        /// Execute the action instruction on the specified device id registered with <see cref="RegWrite(byte, MemoryLocation, byte[])"/> method.
+        /// Note: no status packet is returned.
+        /// </summary>
+        public void Action()
+        {
+            byte[] command = new InstructionPacket(deviceIdBroadcast, Instructions.Action);
+            var responseLength = 0;
+
+            dynamixelChannel.Send(command, responseLength);
         }
 
         /// <summary>

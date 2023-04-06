@@ -21,14 +21,27 @@ var client = new Protocol10Client(channel);
 // Enable torque on the device
 client.Write(deviceId, torque, 0x01);
 
-// Set the goal position to 500
-for (var i = 0; i < 25; i++)
+// Set the goal position to random position between 300 and 700
+// Execute the operation immediately (no need to call Action)
+for (var i = 0; i < 15; i++)
 {
     ushort position = (ushort)rnd.Next(300, 700);
 
     client.Write(deviceId, goalPosition, BitConverter.GetBytes(position));
 
-    await Task.Delay(200);
+    await Task.Delay(500);
+}
+
+// Set the goal position to random position between 300 and 700
+// Execute the operation are registered and executed when Action is called
+for (var i = 0; i < 15; i++)
+{
+    ushort position = (ushort)rnd.Next(300, 700);
+
+    client.RegWrite(deviceId, goalPosition, BitConverter.GetBytes(position));
+    client.Action();
+
+    await Task.Delay(500);
 }
 
 // Disable torque on the device

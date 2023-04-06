@@ -6,7 +6,7 @@ using DynamixelCSharp.Protocol10;
 byte deviceId = 1;
 
 // Temperature memory location
-MemoryLocation temperature = new MemoryLocation(0x2B, 0x01);
+MemoryLocation temperature = new MemoryLocation(0x2B, 0x01, AccessMode.Read);
 
 // Create and open on COM3 with baud rate 1,000,000
 // Note: The baud rate must match the baud rate of the Dynamixel device

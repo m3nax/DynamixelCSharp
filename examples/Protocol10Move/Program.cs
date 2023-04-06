@@ -8,8 +8,8 @@ Random rnd = new Random();
 byte deviceId = 1;
 
 // Memory locations to write
-MemoryLocation torque = new MemoryLocation(0x18, 0x01);
-MemoryLocation goalPosition = new MemoryLocation(0x1E, 0x02);
+MemoryLocation torque = new MemoryLocation(0x18, 0x01, AccessMode.Write);
+MemoryLocation goalPosition = new MemoryLocation(0x1E, 0x02, AccessMode.Write);
 
 // Create and open on COM3 with baud rate 1,000,000
 // Note: The baud rate must match the baud rate of the Dynamixel device

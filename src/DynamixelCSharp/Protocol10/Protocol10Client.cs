@@ -10,6 +10,8 @@ namespace DynamixelCSharp.Protocol10
         private const byte Header1 = 0xFF;
         private const byte Header2 = 0xFF;
 
+        private static readonly byte[] Header = new byte[2] { 0xFF, 0xFF };
+
         private readonly IDynamixelChannel dynamixelChannel;
 
         /// <summary>
@@ -30,7 +32,7 @@ namespace DynamixelCSharp.Protocol10
         {
             byte instruction = 0x01;
             byte length = 0x02;
-            byte checksum = CalculateChecksum(deviceId, length, instruction);
+            byte checksum = Checksum.CalculateFrom(deviceId, length, instruction);
             byte responseLength = 6;
 
             byte[] command = new byte[] { Header1, Header2, deviceId, length, instruction, checksum };
@@ -47,9 +49,14 @@ namespace DynamixelCSharp.Protocol10
         /// <param name="location">Location of memory to read.</param>
         public byte[] Read(byte deviceId, MemoryLocation location)
         {
+            if (!location.AccessMode.HasFlag(AccessMode.Read))
+            {
+                throw new InvalidOperationException("Memory location isn't readable");
+            }
+
             byte instruction = 0x02;
             byte length = 0x04;
-            byte checksum = CalculateChecksum(deviceId, length, instruction, location.Address, location.Length);
+            byte checksum = Checksum.CalculateFrom(deviceId, length, instruction, location.Address, location.Length);
             byte responseLength = 7;
 
             byte[] command = new byte[] { Header1, Header2, deviceId, length, instruction, location.Address, location.Length, checksum };
@@ -74,33 +81,24 @@ namespace DynamixelCSharp.Protocol10
                 throw new Exception();
             }
 
+            if (!location.AccessMode.HasFlag(AccessMode.Write))
+            {
+                throw new InvalidOperationException("Memory location isn't writable");
+            }
+
             byte instruction = 0x03;
-            byte length = (byte)(0x03 + location.Length);
-            byte checksum = CalculateChecksum(deviceId, length, instruction, new byte[] { location.Address }.Concat(values).ToArray());
-            byte responseLength = 6;
 
-            byte[] command = new byte[] { Header1, Header2, deviceId, length, instruction, location.Address }
-                .Concat(values)
-                .Concat(new byte[] { checksum })
-                .ToArray();
+            var payloadLength = (byte)(0x03 + location.Length);
+            var payload = new byte[] { deviceId, payloadLength, instruction, location.Address }.Concat(values);
 
+            var checksum = Checksum.CalculateFrom(payload);
+
+            byte[] command = Header.Concat(payload).Append(checksum).ToArray();
+
+            var responseLength = 6;
             var response = dynamixelChannel.Send(command, responseLength);
 
             ThrowIfStatusErrorOccurred(response[4]);
-        }
-
-        /// <summary>
-        /// Calculate the command checksum
-        /// </summary>
-        /// <param name="deviceId"></param>
-        /// <param name="length"></param>
-        /// <param name="instruction"></param>
-        /// <returns></returns>
-        private static byte CalculateChecksum(byte deviceId, byte length, byte instruction, params byte[] parameters)
-        {
-            var checksum = ~(deviceId + length + instruction + parameters.Sum(x => x));
-
-            return (byte)checksum;
         }
 
         /// <summary>

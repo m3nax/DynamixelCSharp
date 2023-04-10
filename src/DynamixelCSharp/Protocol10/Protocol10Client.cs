@@ -123,6 +123,35 @@ namespace DynamixelCSharp.Protocol10
         }
 
         /// <summary>
+        /// This instruction is to reset the Control Table of DYNAMIXEL to the factory default values.
+        /// </summary>
+        /// <param name="deviceId"></param>
+        public void FactoryReset(byte deviceId)
+        {
+            byte[] command = new InstructionPacket(deviceId, Instructions.FactoryReset);
+            byte responseLength = 6;
+
+            var response = dynamixelChannel.Send(command, responseLength);
+
+            ThrowIfStatusErrorOccurred(response[4]);
+        }
+
+        /// <summary>
+        /// This instruction restarts DYNAMIXEL.
+        /// Supported products : DYNAMIXEL MX-12W(V41), MX-28/64/106(V40), MX(2.0) and X Series(excluding XL-320)
+        /// </summary>
+        /// <param name="deviceId"></param>
+        public void Reboot(byte deviceId)
+        {
+            byte[] command = new InstructionPacket(deviceId, Instructions.Reboot);
+            byte responseLength = 6;
+
+            var response = dynamixelChannel.Send(command, responseLength);
+
+            ThrowIfStatusErrorOccurred(response[4]);
+        }
+
+        /// <summary>
         /// Throw an exception if an error occurred.
         /// </summary>
         /// <param name="errorByte"></param>

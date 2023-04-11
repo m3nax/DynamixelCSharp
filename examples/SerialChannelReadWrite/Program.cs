@@ -18,3 +18,6 @@ foreach (var packet in response)
 {
     Console.Write(packet.ToString("X2") + " ");
 }
+
+// Close the channel
+channel.Close();

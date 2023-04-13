@@ -9,9 +9,9 @@ Unofficial cross-platform cross-arch library for communication with dynamixel de
 
 https://github.com/m3nax/DynamixelCSharp/releases
 
-| Release  | Version | Type   | Release Note (Changelog)                                       | Important Note                                              | .NET Targeting |
-|----------|---------|--------|----------------------------------------------------------------|-------------------------------------------------------------|----------------|
-| **NOT RELEASED**  | 7.0.0 | DEV | | |7.0            |
+| Release  | Version | Type   | Release Note (Changelog)                                       | .NET Targeting |
+|----------|---------|--------|----------------------------------------------------------------|----------------|
+| **NOT RELEASED**  | 7.0.0 | DEV |                                                            |7.0            |
 
 # Supported platforms
 

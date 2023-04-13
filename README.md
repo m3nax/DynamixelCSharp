@@ -1,2 +1,30 @@
 # DynamixelCSharp
-Unofficial cross-platform library for communication with dynamixel devices
+
+[![CodeQL](https://github.com/m3nax/DynamixelCSharp/actions/workflows/codeql.yml/badge.svg)](https://github.com/m3nax/DynamixelCSharp/actions/workflows/codeql.yml)
+[![.NET](https://github.com/m3nax/DynamixelCSharp/actions/workflows/dotnet.yml/badge.svg)](https://github.com/m3nax/DynamixelCSharp/actions/workflows/dotnet.yml)
+
+Unofficial cross-platform library for communication with dynamixel devices.
+
+# Releases
+
+https://github.com/m3nax/DynamixelCSharp/releases
+
+| Release  | Version | Type   | Release Note (Changelog)                                       | Important Note                                              | .NET Targeting |
+|----------|---------|--------|----------------------------------------------------------------|-------------------------------------------------------------|----------------|
+| **NOT RELEASED**  | 7.0.0 | DEV | | |7.0            |
+
+# Supported platforms
+
+| OS         | Arch       | Support  | Package Version |
+|------------|------------|:--------:|-----------------|
+| linux      | arm32      | ❔      | >= 7.0.0        |
+| linux      | arm64      | ✅      | >= 7.0.0        |
+| linux      | amd64(x64) | ✅      | >= 7.0.0        |
+| windows    | arm64      | ❔      | >= 7.0.0        |
+| windows    | amd64(x64) | ✅      | >= 7.0.0        |
+| macOS      | arm64      | ❔      | >= 7.0.0        |
+| macOS      | amd64(x64) | ❔      | >= 7.0.0        |
+
+<div>❔ = not tested</div>
+<div>✅ = supported</div>
+<div>❌ = not supported</div>

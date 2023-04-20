@@ -1,0 +1,8 @@
+area/docs:
+- any: ['doc/**/*', 'docs/**/*']
+
+area/source:
+- any: ['src/**/*']
+
+area/tests:
+- any: ['test/**/*', 'tests/**/*']

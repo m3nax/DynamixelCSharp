@@ -11,8 +11,8 @@ byte deviceId = 1;
 MemoryLocation torque = new MemoryLocation(0x18, 0x01, AccessMode.Write);
 MemoryLocation goalPosition = new MemoryLocation(0x1E, 0x02, AccessMode.Write);
 
-// Create and open on COM3 with baud rate 1,000,000
-// Note: The baud rate must match the baud rate of the Dynamixel device
+// Create and open the communication channel on COM3 with baud rate 1,000,000
+// Note: The baud rate must match the baud rate configured in the Dynamixel device
 var channel = new DynamixelSerialChannel("COM3", 1000000);
 
 // Create a client that use protocol 1.0 to communicate
@@ -33,7 +33,7 @@ for (var i = 0; i < 15; i++)
 }
 
 // Set the goal position to random position between 300 and 700
-// Execute the operation are registered and executed when Action is called
+// The operation are registered in the device and executed when 'Action' method is called
 for (var i = 0; i < 15; i++)
 {
     ushort position = (ushort)rnd.Next(300, 700);

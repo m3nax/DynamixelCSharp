@@ -48,14 +48,13 @@ namespace DynamixelCSharp.Protocol10
             }
 
             byte[] command = new InstructionPacket(deviceId, Instructions.Read, location.Address, location.Length);
-            byte responseLength = 7;
+            byte responseLength = (byte)(6 + location.Length);
 
             var response = dynamixelChannel.Send(command, responseLength);
 
             ThrowIfStatusErrorOccurred(response[4]);
 
-            // TODO: handle 1 byte response and 2 byte response
-            return response[5..6];
+            return response[5..(5 + location.Length)];
         }
 
         /// <summary>

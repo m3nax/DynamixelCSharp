@@ -67,7 +67,7 @@ namespace DynamixelCSharp.Protocol10
         {
             if (values.Length != location.Length)
             {
-                throw new Exception("Memory location size is smaller than size of data to write");
+                throw new DynamixelException("Memory location size is smaller than size of data to write");
             }
 
             if (!location.AccessMode.HasFlag(AccessMode.Write))
@@ -93,7 +93,7 @@ namespace DynamixelCSharp.Protocol10
         {
             if (values.Length != location.Length)
             {
-                throw new Exception("Memory location size is smaller than size of data to write");
+                throw new DynamixelException("Memory location size is smaller than size of data to write");
             }
 
             if (!location.AccessMode.HasFlag(AccessMode.Write))

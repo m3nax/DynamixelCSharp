@@ -18,6 +18,9 @@ var client = new Protocol10Client(channel);
 // Execute the ping instruction
 var result = client.Read(deviceId, temperature);
 
+// Display the result
+Console.WriteLine($"Temperature: {result[0]}");
+
 // Close the channel
 channel.Close();
 

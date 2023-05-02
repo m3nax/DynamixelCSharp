@@ -1,5 +1,8 @@
 ﻿namespace DynamixelCSharp.Protocol10
 {
+    /// <summary>
+    /// Represents the instructions for the Dynamixel protocol 1.0.
+    /// </summary>
     public static class Instructions
     {
         /// <summary>

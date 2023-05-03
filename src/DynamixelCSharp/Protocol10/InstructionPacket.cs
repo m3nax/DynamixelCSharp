@@ -3,7 +3,7 @@
 namespace DynamixelCSharp.Protocol10
 {
     /// <summary>
-    /// Represents an instruction packet.
+    /// Represents an instruction packet sent to a device.
     /// </summary>
     public record class InstructionPacket : IEnumerable<byte>
     {

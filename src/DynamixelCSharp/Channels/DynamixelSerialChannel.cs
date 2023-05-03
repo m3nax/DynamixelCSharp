@@ -130,6 +130,7 @@ namespace DynamixelCSharp.Channels
             return response;
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
@@ -137,6 +138,7 @@ namespace DynamixelCSharp.Channels
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

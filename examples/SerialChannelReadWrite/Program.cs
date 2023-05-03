@@ -1,5 +1,6 @@
 ﻿
 using DynamixelCSharp.Channels;
+using System.Globalization;
 
 // Create and open on COM3 with baud rate 1,000,000
 // Note: The baud rate must match the baud rate of the Dynamixel device
@@ -16,7 +17,7 @@ var response = channel.Send(pingCommand, 6);
 // Expected response is 0xFF, 0xFF, 0x01, 0x02, 0x00, 0xFC
 foreach (var packet in response)
 {
-    Console.Write(packet.ToString("X2") + " ");
+    Console.Write(packet.ToString("X2", CultureInfo.InvariantCulture) + " ");
 }
 
 // Close the channel

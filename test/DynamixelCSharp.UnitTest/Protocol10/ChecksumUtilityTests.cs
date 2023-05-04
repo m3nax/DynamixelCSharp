@@ -5,11 +5,11 @@ namespace DynamixelCSharp.UnitTest.Protocol10
     public class ChecksumUtilityTests
     {
         /// <summary>
-        /// Test checksum calculation.
-        /// Checksum is computed by summing all bytes in the payload and then inverting the result.
-        /// Payload is the array of bytes between the header and the checksum.
+        /// Test the checksum calculation.
+        /// Checksum is computed by summing all bytes in the packet and then inverting the result.
+        /// Packet is the array of bytes between the header and the checksum.
         /// </summary>
-        /// <param name="payload"></param>
+        /// <param name="packet"></param>
         /// <param name="expectedChecksum"></param>
         [Theory]
         // Ping command (https://emanual.robotis.com/docs/en/dxl/protocol1/#ping)
@@ -30,12 +30,12 @@ namespace DynamixelCSharp.UnitTest.Protocol10
         [InlineData(new object[] { new byte[] { 0xFE, 0x0E, 0x83, 0x1E, 0x04, 0x00, 0x10, 0x00, 0x50, 0x01, 0x01, 0x20, 0x02, 0x60, 0x03 }, 0x67 })]
         // Reboot command (https://emanual.robotis.com/docs/en/dxl/protocol1/#bulk-read)
         [InlineData(new object[] { new byte[] { 0xFE, 0x09, 0x92, 0x00, 0x02, 0x01, 0x1E, 0x02, 0x02, 0x24 }, 0x1D })]
-        public void CalculateFrom_ArrayOfBytes_ReturnExpectedChecksum(byte[] payload, byte expectedChecksum)
+        public void CalculateFrom_ArrayOfBytes_ReturnExpectedChecksum(byte[] packet, byte expectedChecksum)
         {
             // Arrange
 
             // Act
-            var calculatedChecksum = ChecksumUtility.CalculateFrom(payload);
+            var calculatedChecksum = ChecksumUtility.CalculateFrom(packet);
 
             // Assert
             Assert.Equal(expectedChecksum, calculatedChecksum);

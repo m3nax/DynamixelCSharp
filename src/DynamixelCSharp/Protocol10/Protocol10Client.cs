@@ -14,7 +14,7 @@ namespace DynamixelCSharp.Protocol10
         /// <summary>
         /// Initializes a new instance of the <see cref="Protocol10Client"/> class.
         /// </summary>
-        /// <param name="dynamixelChannel"></param>
+        /// <param name="dynamixelChannel">Channel used for the communication.</param>
         /// <exception cref="ArgumentNullException"></exception>
         public Protocol10Client(IDynamixelChannel dynamixelChannel)
         {
@@ -30,9 +30,9 @@ namespace DynamixelCSharp.Protocol10
             byte[] command = new InstructionPacket(deviceId, Instructions.Ping);
             byte responseLength = 6;
 
-            var response = dynamixelChannel.Send(command, responseLength);
+            ResponsePacket response = dynamixelChannel.Send(command, responseLength);
 
-            ThrowIfStatusErrorOccurred(response[4]);
+            ThrowIfStatusErrorOccurred(response.Error);
         }
 
         /// <summary>
@@ -50,11 +50,11 @@ namespace DynamixelCSharp.Protocol10
             byte[] command = new InstructionPacket(deviceId, Instructions.Read, location.Address, location.Length);
             byte responseLength = (byte)(6 + location.Length);
 
-            var response = dynamixelChannel.Send(command, responseLength);
+            ResponsePacket response = dynamixelChannel.Send(command, responseLength);
 
-            ThrowIfStatusErrorOccurred(response[4]);
+            ThrowIfStatusErrorOccurred(response.Error);
 
-            return response[5..(5 + location.Length)];
+            return response.Parameters;
         }
 
         /// <summary>
@@ -78,9 +78,9 @@ namespace DynamixelCSharp.Protocol10
             byte[] command = new InstructionPacket(deviceId, Instructions.Write, location.Address, values);
             var responseLength = 6;
 
-            var response = dynamixelChannel.Send(command, responseLength);
+            ResponsePacket response = dynamixelChannel.Send(command, responseLength);
 
-            ThrowIfStatusErrorOccurred(response[4]);
+            ThrowIfStatusErrorOccurred(response.Error);
         }
 
         /// <summary>
@@ -104,9 +104,9 @@ namespace DynamixelCSharp.Protocol10
             byte[] command = new InstructionPacket(deviceId, Instructions.RegWrite, location.Address, values);
             var responseLength = 6;
 
-            var response = dynamixelChannel.Send(command, responseLength);
+            ResponsePacket response = dynamixelChannel.Send(command, responseLength);
 
-            ThrowIfStatusErrorOccurred(response[4]);
+            ThrowIfStatusErrorOccurred(response.Error);
         }
 
         /// <summary>
@@ -130,9 +130,9 @@ namespace DynamixelCSharp.Protocol10
             byte[] command = new InstructionPacket(deviceId, Instructions.FactoryReset);
             byte responseLength = 6;
 
-            var response = dynamixelChannel.Send(command, responseLength);
+            ResponsePacket response = dynamixelChannel.Send(command, responseLength);
 
-            ThrowIfStatusErrorOccurred(response[4]);
+            ThrowIfStatusErrorOccurred(response.Error);
         }
 
         /// <summary>
@@ -145,9 +145,9 @@ namespace DynamixelCSharp.Protocol10
             byte[] command = new InstructionPacket(deviceId, Instructions.Reboot);
             byte responseLength = 6;
 
-            var response = dynamixelChannel.Send(command, responseLength);
+            ResponsePacket response = dynamixelChannel.Send(command, responseLength);
 
-            ThrowIfStatusErrorOccurred(response[4]);
+            ThrowIfStatusErrorOccurred(response.Error);
         }
 
         /// <summary>

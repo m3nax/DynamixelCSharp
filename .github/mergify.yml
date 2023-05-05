@@ -1,13 +1,26 @@
+defaults:
+  actions:
+    queue:
+      name: default
+      method: rebase
+      update_method: rebase
+      # For rebasing Mergify uses the author of the PR.
+
 pull_request_rules:
   - name: Automatic merge on approval
     conditions:
       - "#approved-reviews-by>=1"
+      - "approved-reviews-by=@m3nax"
+      - label!=do-not-merge
     actions:
-      merge:
-        method: squash
+      queue:
+        name: default
+      delete_head_branch: {}
+        
   - name: Ask to resolve conflict
     conditions:
       - conflict
+      - author!=dependabot[bot]
     actions:
         comment:
-          message: This pull request is now in conflicts. Could you fix it @{{author}}? 🙏
+          message: This pull request is now in conflicts with the target branch. Could you fix it @{{author}}? 🙏

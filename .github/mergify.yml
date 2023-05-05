@@ -19,6 +19,13 @@ pull_request_rules:
         name: default
       delete_head_branch: {}
         
+  - name: Remove outdated reviews for non trusted authors
+    conditions:
+      - base=main
+      - author!=@m3nax
+    actions:
+      dismiss_reviews:        
+        
   - name: Ask to resolve conflict
     conditions:
       - conflict

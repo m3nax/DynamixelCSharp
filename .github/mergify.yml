@@ -13,28 +13,11 @@ pull_request_rules:
       - label!=do-not-merge
       - "#approved-reviews-by>=1"
       - "approved-reviews-by=@m3nax"
+      - "title~=^(fix|feat|docs|style|refactor|perf|test|build|ci|chore|revert)(?:\\(.+\\))?:"
     actions:
       queue:
         name: default
       delete_head_branch: {}
-      
-  - name: Check conventional commit
-    conditions:
-      - base=main
-    actions:
-      post_check:
-        success_conditions:
-          - "title~=^(fix|feat|docs|style|refactor|perf|test|build|ci|chore|revert)(?:\\(.+\\))?:"
-        title: |
-          {% if check_succeed %}
-          Title follows Conventional Commit
-          {% else %}
-          Title does not follow Conventional Commit
-          {% endif %}
-        summary: |
-          {% if not check_succeed %}
-          Your pull request title must follow [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/).
-          {% endif %}
         
   - name: Ask to resolve conflict
     conditions:

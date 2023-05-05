@@ -9,9 +9,10 @@ defaults:
 pull_request_rules:
   - name: Automatic merge on approval
     conditions:
+      - base=main
+      - label!=do-not-merge
       - "#approved-reviews-by>=1"
       - "approved-reviews-by=@m3nax"
-      - label!=do-not-merge
     actions:
       queue:
         name: default

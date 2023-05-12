@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protocol10Move", "examples\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{211F7B6D-2E84-4AEE-BEF1-830B07B4DB95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Protocol10ReadPosition", "examples\Protocol10ReadPosition\Protocol10ReadPosition.csproj", "{E73176E3-B20C-4335-A80F-ADF41FC75FA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Protocol10ReadPosition", "examples\Protocol10ReadPosition\Protocol10ReadPosition.csproj", "{E73176E3-B20C-4335-A80F-ADF41FC75FA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamixelCSharp.UnitTest", "test\DynamixelCSharp.UnitTest\DynamixelCSharp.UnitTest.csproj", "{8F985F2B-47DF-4790-B1F8-9581EA60863D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamixelCSharp.UnitTest", "test\DynamixelCSharp.UnitTest\DynamixelCSharp.UnitTest.csproj", "{8F985F2B-47DF-4790-B1F8-9581EA60863D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

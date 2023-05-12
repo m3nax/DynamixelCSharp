@@ -28,3 +28,12 @@ https://github.com/m3nax/DynamixelCSharp/releases
 <div>❔ = not tested</div>
 <div>✅ = supported</div>
 <div>❌ = not supported</div>
+
+# Build documentation site
+```bash
+# Install docfx
+dotnet tool update -g docfx
+
+# Build documentation site and serve it on localhost:8080
+ docfx docs/docfx.json -o:./app/docs/ --serve
+```

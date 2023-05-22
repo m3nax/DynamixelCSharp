@@ -1,4 +1,6 @@
-﻿namespace DynamixelCSharp.Protocol10
+﻿using DynamixelCSharp.Exceptions;
+
+namespace DynamixelCSharp.Protocol10
 {
     /// <summary>
     /// Represents a response packet returned by a device.
@@ -19,6 +21,8 @@
             }
 
             this.responseBytes = responseBytes;
+
+            ThrowIfChecksumIsInvalid();
         }
 
         /// <summary>
@@ -60,5 +64,19 @@
         /// </summary>
         /// <param name="bytes"></param>
         public static implicit operator ResponsePacket(byte[] bytes) => new ResponsePacket(bytes);
+
+        /// <summary>
+        /// Throws an exception if the checksum is invalid.
+        /// </summary>
+        /// <exception cref="DynamixelException"></exception>
+        private void ThrowIfChecksumIsInvalid()
+        {
+            var computedChecksum = ChecksumUtility.CalculateFrom(responseBytes[2..(responseBytes.Length - 1)]);
+            if (computedChecksum != Checksum)
+            {
+                throw new DynamixelException($"Invalid checksum. Expected {Checksum} but was {computedChecksum}");
+            }
+        }
+
     }
 }

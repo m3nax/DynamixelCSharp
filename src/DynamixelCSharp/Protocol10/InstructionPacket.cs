@@ -101,6 +101,7 @@ namespace DynamixelCSharp.Protocol10
         {
             yield return Header1;
             yield return Header2;
+            yield return DeviceId;
             yield return Length;
             yield return Instruction;
 

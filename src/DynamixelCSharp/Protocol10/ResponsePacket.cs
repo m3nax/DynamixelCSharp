@@ -1,9 +1,12 @@
-﻿namespace DynamixelCSharp.Protocol10
+﻿using DynamixelCSharp.Exceptions;
+using System.Collections;
+
+namespace DynamixelCSharp.Protocol10
 {
     /// <summary>
     /// Represents a response packet returned by a device.
     /// </summary>
-    public record class ResponsePacket
+    public record class ResponsePacket : IEnumerable<byte>
     {
         private readonly byte[] responseBytes;
 
@@ -19,6 +22,8 @@
             }
 
             this.responseBytes = responseBytes;
+
+            ThrowIfChecksumIsInvalid();
         }
 
         /// <summary>
@@ -29,6 +34,16 @@
             : this(responseBytes.ToArray())
         {
         }
+
+        /// <summary>
+        /// First byte of the response packet header.
+        /// </summary>
+        public byte Header1 => responseBytes[0];
+
+        /// <summary>
+        /// Second byte of the response packet header.
+        /// </summary>
+        public byte Header2 => responseBytes[1];
 
         /// <summary>
         /// Id of the device that sent the packet.
@@ -60,5 +75,56 @@
         /// </summary>
         /// <param name="bytes"></param>
         public static implicit operator ResponsePacket(byte[] bytes) => new ResponsePacket(bytes);
+
+        /// <summary>
+        /// Return packet of the instruction packet.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<byte> GetPacket()
+        {
+            yield return DeviceId;
+            yield return Length;
+
+            foreach (byte b in Parameters) yield return b;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerator<byte> GetEnumerator()
+        {
+            yield return Header1;
+            yield return Header2;
+            yield return DeviceId;
+            yield return Length;
+
+            foreach (byte b in Parameters) yield return b;
+
+            yield return Checksum;
+        }
+
+        /// <inheritdoc/>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            yield return Header1;
+            yield return Header2;
+            yield return DeviceId;
+            yield return Length;
+
+            foreach (byte b in Parameters) yield return b;
+
+            yield return Checksum;
+        }
+
+        /// <summary>
+        /// Throws an exception if the checksum is invalid.
+        /// </summary>
+        /// <exception cref="DynamixelException"></exception>
+        private void ThrowIfChecksumIsInvalid()
+        {
+            var computedChecksum = ChecksumUtility.CalculateFrom(GetPacket());
+            if (computedChecksum != Checksum)
+            {
+                throw new DynamixelException($"Invalid checksum. Expected {Checksum} but was {computedChecksum}");
+            }
+        }
     }
 }

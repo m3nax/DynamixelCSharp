@@ -35,5 +35,5 @@ https://github.com/m3nax/DynamixelCSharp/releases
 dotnet tool update -g docfx
 
 # Build documentation site and serve it on localhost:8080
- docfx docs/docfx.json -o:./app/docs/ --serve
+docfx docs/docfx.json -o:./app/docs/ --serve
 ```

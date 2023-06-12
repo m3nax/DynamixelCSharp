@@ -4,7 +4,7 @@ using DynamixelCSharp.Protocol10;
 
 Random rnd = new Random();
 
-// Example use device id 1
+// Example we will use device with id 1
 byte deviceId = 1;
 
 // Memory locations to write

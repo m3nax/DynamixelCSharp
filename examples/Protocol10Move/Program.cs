@@ -1,15 +1,14 @@
 ﻿
 using DynamixelCSharp.Channels;
 using DynamixelCSharp.Protocol10;
+using DynamixelCSharp.Protocol10.Devices;
 
 Random rnd = new Random();
 
 // Example we will use device with id 1
 byte deviceId = 1;
-
-// Memory locations to write
-MemoryLocation torque = new MemoryLocation(0x18, 0x01, AccessMode.Write);
-MemoryLocation goalPosition = new MemoryLocation(0x1E, 0x02, AccessMode.Write);
+// Example device is a Dynamixel AX-12A
+var memoryProfile = new Ax12aMemoryProfile();
 
 // Create and open the communication channel on COM3 with baud rate 1,000,000
 // Note: The baud rate must match the baud rate configured in the Dynamixel device
@@ -19,7 +18,7 @@ var channel = new DynamixelSerialChannel("COM3", 1000000);
 var client = new Protocol10Client(channel);
 
 // Enable torque on the device
-client.Write(deviceId, torque, 0x01);
+client.Write(deviceId, memoryProfile.TorqueEnable, 0x01);
 
 // Set the goal position to random position between 300 and 700
 // Execute the operation immediately (no need to call Action)
@@ -27,7 +26,7 @@ for (var i = 0; i < 15; i++)
 {
     ushort position = (ushort)rnd.Next(300, 700);
 
-    client.Write(deviceId, goalPosition, BitConverter.GetBytes(position));
+    client.Write(deviceId, memoryProfile.GoalPosition, BitConverter.GetBytes(position));
 
     await Task.Delay(500);
 }
@@ -38,14 +37,14 @@ for (var i = 0; i < 15; i++)
 {
     ushort position = (ushort)rnd.Next(300, 700);
 
-    client.RegWrite(deviceId, goalPosition, BitConverter.GetBytes(position));
+    client.RegWrite(deviceId, memoryProfile.GoalPosition, BitConverter.GetBytes(position));
     client.Action();
 
     await Task.Delay(500);
 }
 
 // Disable torque on the device
-client.Write(deviceId, torque, 0x00);
+client.Write(deviceId, memoryProfile.TorqueEnable, 0x00);
 
 // Close the channel
 channel.Close();

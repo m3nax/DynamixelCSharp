@@ -8,9 +8,10 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
- #   paths:
- #   - '**.cs'
- #   - '**.csproj'
+    paths:
+    - '**.cs'
+    - '**.csproj'
+    - '.github/**'
     
 env:
   DOTNET_VERSION: ' 7.0.x'

@@ -2,7 +2,7 @@
 using DynamixelCSharp.Channels;
 using DynamixelCSharp.Protocol10;
 
-// Example use device id 1
+// Example we will use device with id 1
 byte deviceId = 1;
 
 // Create and open on COM3 with baud rate 1,000,000

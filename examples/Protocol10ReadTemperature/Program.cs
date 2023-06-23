@@ -1,12 +1,12 @@
 ﻿
 using DynamixelCSharp.Channels;
 using DynamixelCSharp.Protocol10;
+using DynamixelCSharp.Protocol10.Devices;
 
-// Example use device id 1
+// Example we will use device with id 1
 byte deviceId = 1;
-
-// Temperature memory location
-MemoryLocation temperature = new MemoryLocation(0x2B, 0x01, AccessMode.Read);
+// Example device is a Dynamixel AX-12A
+var memoryProfile = new Ax12aMemoryProfile();
 
 // Create and open on COM3 with baud rate 1,000,000
 // Note: The baud rate must match the baud rate of the Dynamixel device
@@ -16,7 +16,7 @@ var channel = new DynamixelSerialChannel("COM3", 1000000);
 var client = new Protocol10Client(channel);
 
 // Execute the ping instruction
-var result = client.Read(deviceId, temperature);
+var result = client.Read(deviceId, memoryProfile.PresentTemperature);
 
 // Display the result
 Console.WriteLine($"Temperature: {result[0]} °C");

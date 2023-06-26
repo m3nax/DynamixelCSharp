@@ -1,5 +1,4 @@
-﻿
-using DynamixelCSharp.Channels;
+﻿using DynamixelCSharp.Channels;
 using System.Globalization;
 
 // Create and open on COM3 with baud rate 1,000,000

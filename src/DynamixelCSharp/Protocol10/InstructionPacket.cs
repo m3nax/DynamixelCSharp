@@ -54,7 +54,7 @@ namespace DynamixelCSharp.Protocol10
 
         /// <summary>
         /// Length of the instruction packet.
-        /// Formula: 1 (instruction) + n (parameters) + 1 (checksum)
+        /// Formula: 1 (instruction) + n (parameters) + 1 (checksum).
         /// </summary>
         public byte Length => (byte)(2 + Parameters.Length);
 

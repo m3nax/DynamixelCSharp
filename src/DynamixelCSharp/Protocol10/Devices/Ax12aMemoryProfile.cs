@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Memory profile of the AX-12A device.
-    /// Doc: https://emanual.robotis.com/docs/en/dxl/ax/ax-12a/#control-table-of-eeprom-area
+    /// Doc: https://emanual.robotis.com/docs/en/dxl/ax/ax-12a/#control-table-of-eeprom-area.
     /// </summary>
     public struct Ax12aMemoryProfile : IMemoryProfile
     {

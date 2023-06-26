@@ -138,7 +138,10 @@ namespace DynamixelCSharp.Channels
             GC.SuppressFinalize(this);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Dispose the serial port.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

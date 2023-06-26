@@ -54,7 +54,7 @@ namespace DynamixelCSharp.Protocol10
 
         /// <summary>
         /// Length of the instruction packet.
-        /// Formula: 1 (instruction) + n (parameters) + 1 (checksum)
+        /// Formula: 1 (instruction) + n (parameters) + 1 (checksum).
         /// </summary>
         public byte Length => (byte)(2 + Parameters.Length);
 
@@ -62,6 +62,12 @@ namespace DynamixelCSharp.Protocol10
         /// Checksum of the instruction packet.
         /// </summary>
         public byte Checksum => ChecksumUtility.CalculateFrom(GetPacket());
+
+        /// <summary>
+        /// Implicit conversion to byte array.
+        /// </summary>
+        /// <param name="i"></param>
+        public static implicit operator byte[](InstructionPacket i) => i.ToArray();
 
         /// <summary>
         /// Return packet of the instruction packet.
@@ -73,14 +79,11 @@ namespace DynamixelCSharp.Protocol10
             yield return Length;
             yield return Instruction;
 
-            foreach (byte b in Parameters) yield return b;
+            foreach (byte b in Parameters)
+            {
+                yield return b;
+            }
         }
-
-        /// <summary>
-        /// Implicit conversion to byte array.
-        /// </summary>
-        /// <param name="i"></param>
-        public static implicit operator byte[](InstructionPacket i) => i.ToArray();
 
         /// <inheritdoc/>
         public IEnumerator<byte> GetEnumerator()
@@ -91,7 +94,10 @@ namespace DynamixelCSharp.Protocol10
             yield return Length;
             yield return Instruction;
 
-            foreach (byte b in Parameters) yield return b;
+            foreach (byte b in Parameters)
+            {
+                yield return b;
+            }
 
             yield return Checksum;
         }
@@ -105,7 +111,10 @@ namespace DynamixelCSharp.Protocol10
             yield return Length;
             yield return Instruction;
 
-            foreach (byte b in Parameters) yield return b;
+            foreach (byte b in Parameters)
+            {
+                yield return b;
+            }
 
             yield return Checksum;
         }

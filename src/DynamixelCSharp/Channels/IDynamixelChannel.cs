@@ -17,7 +17,7 @@
         void Close();
 
         /// <summary>
-        /// Open the channel. 
+        /// Open the channel.
         /// If the channel is already open, this method does nothing.
         /// If the channel is faulted or closed, this method will try to open the channel.
         /// </summary>

@@ -17,7 +17,7 @@ namespace DynamixelCSharp.UnitTest.Protocol10
             // Act
             var ctor = () => new ResponsePacket(responseBytes);
 
-            //Assert
+            // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => ctor());
         }
 
@@ -30,11 +30,10 @@ namespace DynamixelCSharp.UnitTest.Protocol10
             // DOC: https://emanual.robotis.com/docs/en/dxl/protocol1/#id-1-status-packet-1
             var responseBytes = new byte[] { 0xFF, 0xFF, 0x01, 0x03, 0x00, 0x20, 0xDA };
 
-
             // Act
             var ctor = () => new ResponsePacket(responseBytes);
 
-            //Assert
+            // Assert
             Assert.Throws<DynamixelException>(() => ctor());
         }
 
@@ -56,6 +55,5 @@ namespace DynamixelCSharp.UnitTest.Protocol10
             Assert.Equal(expectedError, responsePacket.Error);
             Assert.Equal(expectedParameters, responsePacket.Parameters);
         }
-
     }
 }

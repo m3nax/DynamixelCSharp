@@ -85,7 +85,10 @@ namespace DynamixelCSharp.Protocol10
             yield return DeviceId;
             yield return Length;
 
-            foreach (byte b in Parameters) yield return b;
+            foreach (byte b in Parameters)
+            {
+                yield return b;
+            }
         }
 
         /// <inheritdoc/>
@@ -96,7 +99,10 @@ namespace DynamixelCSharp.Protocol10
             yield return DeviceId;
             yield return Length;
 
-            foreach (byte b in Parameters) yield return b;
+            foreach (byte b in Parameters)
+            {
+                yield return b;
+            }
 
             yield return Checksum;
         }
@@ -109,7 +115,10 @@ namespace DynamixelCSharp.Protocol10
             yield return DeviceId;
             yield return Length;
 
-            foreach (byte b in Parameters) yield return b;
+            foreach (byte b in Parameters)
+            {
+                yield return b;
+            }
 
             yield return Checksum;
         }

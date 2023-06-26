@@ -12,7 +12,7 @@
         /// <returns>The calculated checksum.</returns>
         public static byte CalculateFrom(IEnumerable<byte> payloadBytes)
         {
-            var checksum = ~(payloadBytes.Sum(x => x));
+            var checksum = ~payloadBytes.Sum(x => x);
 
             return (byte)checksum;
         }

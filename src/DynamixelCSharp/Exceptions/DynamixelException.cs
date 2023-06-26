@@ -7,24 +7,32 @@ namespace DynamixelCSharp.Exceptions
     /// </summary>
     public class DynamixelException : Exception
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DynamixelException"/> class.
+        /// </summary>
         public DynamixelException()
         {
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DynamixelException"/> class.
+        /// </summary>
         public DynamixelException(string? message)
             : base(message)
         {
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DynamixelException"/> class.
+        /// </summary>
         public DynamixelException(string? message, Exception? innerException)
             : base(message, innerException)
         {
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DynamixelException"/> class.
+        /// </summary>
         protected DynamixelException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

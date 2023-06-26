@@ -1,5 +1,4 @@
-﻿
-using DynamixelCSharp.Channels;
+﻿using DynamixelCSharp.Channels;
 using DynamixelCSharp.Protocol10;
 using DynamixelCSharp.Protocol10.Devices;
 
@@ -7,6 +6,7 @@ Random rnd = new Random();
 
 // Example we will use device with id 1
 byte deviceId = 1;
+
 // Example device is a Dynamixel AX-12A
 var memoryProfile = new Ax12aMemoryProfile();
 

@@ -46,7 +46,8 @@
         public const byte SyncWrite = 0x83;
 
         /// <summary>
-        /// 	For multiple devices, Instruction to write data on different Addresses with different lengths at once (See supported products in the description).
+        /// For multiple devices, Instruction to write data on different Addresses with different lengths at
+        /// once (See supported products in the description).
         /// </summary>
         public const byte BulkRead = 0x92;
     }

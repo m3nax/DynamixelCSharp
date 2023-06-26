@@ -61,7 +61,7 @@
         public MemoryLocation MaxTorque { get; }
 
         /// <summary>
-        /// The Status Return Level (16) decides how to return Status Packet when DYNAMIXEL receives 
+        /// The Status Return Level (16) decides how to return Status Packet when DYNAMIXEL receives
         /// an Instruction Packet.
         /// </summary>
         public MemoryLocation StatusReturnLevel { get; }
@@ -162,7 +162,7 @@
         public MemoryLocation Lock { get; }
 
         /// <summary>
-        ///	Minimum Current Threshold.
+        /// Minimum Current Threshold.
         /// </summary>
         public MemoryLocation Punch { get; }
     }

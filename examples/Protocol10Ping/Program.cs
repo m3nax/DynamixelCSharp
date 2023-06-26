@@ -1,5 +1,4 @@
-﻿
-using DynamixelCSharp.Channels;
+﻿using DynamixelCSharp.Channels;
 using DynamixelCSharp.Protocol10;
 
 // Example we will use device with id 1

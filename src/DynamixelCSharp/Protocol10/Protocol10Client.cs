@@ -36,10 +36,15 @@ namespace DynamixelCSharp.Protocol10
         }
 
         /// <summary>
-        /// Read a memory location in the device.
+        /// The Read method reads a memory location in a device and returns an array of bytes that
+        /// represents the data read.
         /// </summary>
         /// <param name="deviceId">Device id.</param>
         /// <param name="location">Location of memory to read.</param>
+        /// <returns>
+        /// Returns the Parameters property of the response object which is an array of bytes that
+        /// represents the data read from the device.
+        /// </returns>
         public byte[] Read(byte deviceId, MemoryLocation location)
         {
             if (!location.AccessMode.HasFlag(AccessMode.Read))
@@ -137,7 +142,7 @@ namespace DynamixelCSharp.Protocol10
 
         /// <summary>
         /// This instruction restarts DYNAMIXEL.
-        /// Supported products : DYNAMIXEL MX-12W(V41), MX-28/64/106(V40), MX(2.0) and X Series(excluding XL-320)
+        /// Supported products : DYNAMIXEL MX-12W(V41), MX-28/64/106(V40), MX(2.0) and X Series(excluding XL-320).
         /// </summary>
         /// <param name="deviceId"></param>
         public void Reboot(byte deviceId)
@@ -154,7 +159,6 @@ namespace DynamixelCSharp.Protocol10
         /// Throw an exception if an error occurred.
         /// </summary>
         /// <param name="errorByte"></param>
-        /// <returns></returns>
         private static void ThrowIfStatusErrorOccurred(byte errorByte)
         {
             if (errorByte == StatusErrors.None)

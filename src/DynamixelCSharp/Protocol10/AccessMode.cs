@@ -19,6 +19,6 @@
         /// <summary>
         /// The memory location is read-write.
         /// </summary>
-        ReadWrite = Read | Write
+        ReadWrite = Read | Write,
     }
 }

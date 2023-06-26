@@ -56,6 +56,5 @@ namespace DynamixelCSharp.UnitTest.Protocol10
             Assert.Equal(expectedError, responsePacket.Error);
             Assert.Equal(expectedParameters, responsePacket.Parameters);
         }
-
     }
 }

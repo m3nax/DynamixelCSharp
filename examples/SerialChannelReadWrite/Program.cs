@@ -7,6 +7,11 @@ using System.Globalization;
 var channel = new DynamixelSerialChannel("COM3", 1000000);
 
 // Protocol 1.0 ping command for device with id 1
+// Header       = 0xFF, 0xFF
+// Device ID    = 0x01
+// Length       = 0x02
+// Instruction  = 0x01
+// Checksum     = 0xFB
 var pingCommand = new byte[] { 0xFF, 0xFF, 0x01, 0x02, 0x01, 0xFB };
 
 // Send command and wait for response

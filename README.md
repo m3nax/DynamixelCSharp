@@ -35,6 +35,7 @@ https://github.com/m3nax/DynamixelCSharp/releases
 | Device | Support | Tested |
 |--------|:-------:|:------:|
 | AX-12A | ✅      | ✅     |
+| AX-18A | ✅      | ❌     |
 
 # Build documentation site
 ```bash

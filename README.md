@@ -2,6 +2,7 @@
 
 [![CodeQL](https://github.com/m3nax/DynamixelCSharp/actions/workflows/codeql.yml/badge.svg)](https://github.com/m3nax/DynamixelCSharp/actions/workflows/codeql.yml)
 [![.NET](https://github.com/m3nax/DynamixelCSharp/actions/workflows/dotnet.yml/badge.svg)](https://github.com/m3nax/DynamixelCSharp/actions/workflows/dotnet.yml)
+[![Docfx](https://github.com/m3nax/DynamixelCSharp/actions/workflows/docfx.yaml/badge.svg)](https://github.com/m3nax/DynamixelCSharp/actions/workflows/docfx.yaml)
 
 Unofficial cross-platform cross-arch library for the communication with dynamixel devices.
 

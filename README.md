@@ -30,6 +30,12 @@ https://github.com/m3nax/DynamixelCSharp/releases
 <div>✅ = supported</div>
 <div>❌ = not supported</div>
 
+# Supported devices/protocols
+## Protocol 1.0
+| Device | Support | Tested |
+|--------|:-------:|:------:|
+| AX-12A | ✅      | ✅     |
+
 # Build documentation site
 ```bash
 # Install docfx

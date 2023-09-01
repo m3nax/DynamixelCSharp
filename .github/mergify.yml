@@ -12,7 +12,6 @@ pull_request_rules:
       - base=main
       - label!=do-not-merge
       - "#approved-reviews-by>=1"
-      - "approved-reviews-by=@m3nax"
       - "title~=^(fix|feat|docs|style|refactor|perf|test|build|ci|chore|revert)(?:\\(.+\\))?:"
     actions:
       queue:

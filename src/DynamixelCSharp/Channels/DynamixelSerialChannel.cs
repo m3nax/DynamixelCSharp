@@ -110,6 +110,8 @@ namespace DynamixelCSharp.Channels
         /// <inheritdoc/>
         public byte[] Send(byte[] command, int responseLength)
         {
+            ArgumentNullException.ThrowIfNull(command);
+
             var response = new byte[responseLength];
 
             // If channel is not open then open it.

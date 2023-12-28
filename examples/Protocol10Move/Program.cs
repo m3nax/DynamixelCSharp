@@ -1,6 +1,7 @@
 ﻿using DynamixelCSharp.Channels;
 using DynamixelCSharp.Protocol10;
 using DynamixelCSharp.Protocol10.Devices;
+using System.Security.Cryptography;
 
 Random rnd = new Random();
 
@@ -24,23 +25,23 @@ client.Write(deviceId, memoryProfile.TorqueEnable, 0x01);
 // Execute the operation immediately (no need to call Action)
 for (var i = 0; i < 15; i++)
 {
-    ushort position = (ushort)rnd.Next(300, 700);
+    ushort position = (ushort)RandomNumberGenerator.GetInt32(300, 700);
 
     client.Write(deviceId, memoryProfile.GoalPosition, BitConverter.GetBytes(position));
 
-    await Task.Delay(500);
+    await Task.Delay(500).ConfigureAwait(true);
 }
 
 // Set the goal position to random position between 300 and 700
 // The operation are registered in the device and executed when 'Action' method is called
 for (var i = 0; i < 15; i++)
 {
-    ushort position = (ushort)rnd.Next(300, 700);
+    ushort position = (ushort)RandomNumberGenerator.GetInt32(300, 700);
 
     client.RegWrite(deviceId, memoryProfile.GoalPosition, BitConverter.GetBytes(position));
     client.Action();
 
-    await Task.Delay(500);
+    await Task.Delay(500).ConfigureAwait(true);
 }
 
 // Disable torque on the device

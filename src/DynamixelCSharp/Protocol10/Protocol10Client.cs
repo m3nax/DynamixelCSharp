@@ -59,7 +59,7 @@ namespace DynamixelCSharp.Protocol10
 
             ThrowIfStatusErrorOccurred(response.Error);
 
-            return response.Parameters;
+            return response.Parameters.ToArray();
         }
 
         /// <summary>
@@ -70,6 +70,8 @@ namespace DynamixelCSharp.Protocol10
         /// <param name="values"></param>
         public void Write(byte deviceId, MemoryLocation location, params byte[] values)
         {
+            ArgumentNullException.ThrowIfNull(values);
+
             if (values.Length != location.Length)
             {
                 throw new DynamixelException("Memory location size is smaller than size of data to write");
@@ -96,6 +98,8 @@ namespace DynamixelCSharp.Protocol10
         /// <param name="values"></param>
         public void RegWrite(byte deviceId, MemoryLocation location, params byte[] values)
         {
+            ArgumentNullException.ThrowIfNull(values);
+
             if (values.Length != location.Length)
             {
                 throw new DynamixelException("Memory location size is smaller than size of data to write");

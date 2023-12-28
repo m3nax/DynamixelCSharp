@@ -16,6 +16,8 @@ namespace DynamixelCSharp.Protocol10
         /// <param name="responseBytes"></param>
         public ResponsePacket(byte[] responseBytes)
         {
+            ArgumentNullException.ThrowIfNull(responseBytes);
+
             if (responseBytes.Length < 6)
             {
                 throw new ArgumentOutOfRangeException(nameof(responseBytes), $"The length of the parameter  {nameof(responseBytes)} must be greater or equal to 6");
@@ -68,38 +70,48 @@ namespace DynamixelCSharp.Protocol10
         /// <summary>
         /// Parameters of the response packet.
         /// </summary>
-        public byte[] Parameters => responseBytes[5..(responseBytes.Length - 1)];
-
-        /// <summary>
-        /// Implicit conversion from byte array to responsePacket.
-        /// </summary>
-        /// <param name="bytes"></param>
-        public static implicit operator ResponsePacket(byte[] bytes) => new ResponsePacket(bytes);
+        public IReadOnlyList<byte> Parameters => responseBytes[5..(responseBytes.Length - 1)].ToList();
 
         /// <summary>
         /// Return packet of the instruction packet.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<byte> GetPacket()
+        public IEnumerable<byte> Packet
         {
-            yield return DeviceId;
-            yield return Length;
-
-            foreach (byte b in Parameters)
+            get
             {
-                yield return b;
+                yield return DeviceId;
+                yield return Length;
+
+                foreach (byte b in Parameters)
+                {
+                    yield return b;
+                }
             }
         }
+
+        /// <summary>
+        /// Implicit conversion from byte array to responsePacket.
+        /// </summary>
+        /// <param name="bytes"></param>
+        public static implicit operator ResponsePacket(byte[] bytes)
+            => FromByteArray(bytes);
+
+        /// <summary>
+        /// Creates a new instance of <see cref="ResponsePacket"/> from a byte array.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static ResponsePacket FromByteArray(byte[] bytes)
+            => new ResponsePacket(bytes);
 
         /// <inheritdoc/>
         public IEnumerator<byte> GetEnumerator()
         {
             yield return Header1;
             yield return Header2;
-            yield return DeviceId;
-            yield return Length;
 
-            foreach (byte b in Parameters)
+            foreach (byte b in Packet)
             {
                 yield return b;
             }
@@ -112,10 +124,8 @@ namespace DynamixelCSharp.Protocol10
         {
             yield return Header1;
             yield return Header2;
-            yield return DeviceId;
-            yield return Length;
 
-            foreach (byte b in Parameters)
+            foreach (byte b in Packet)
             {
                 yield return b;
             }
@@ -129,7 +139,7 @@ namespace DynamixelCSharp.Protocol10
         /// <exception cref="DynamixelException"></exception>
         private void ThrowIfChecksumIsInvalid()
         {
-            var computedChecksum = ChecksumUtility.CalculateFrom(GetPacket());
+            var computedChecksum = ChecksumUtility.CalculateFrom(Packet);
             if (computedChecksum != Checksum)
             {
                 throw new DynamixelException($"Invalid checksum. Expected {Checksum} but was {computedChecksum}");

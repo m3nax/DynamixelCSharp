@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a memory location.
     /// </summary>
-    public struct MemoryLocation
+    public record struct MemoryLocation
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryLocation"/> struct.

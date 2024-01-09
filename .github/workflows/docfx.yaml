@@ -22,6 +22,7 @@ env:
   DOTNET_VERSION: |
     7.0.x
     8.0.x
+  DOCFX_VERSION: 'v2.74.1'
   
 jobs:
   docfx:
@@ -45,7 +46,7 @@ jobs:
     #    args: docs/docfx.json
     - name: Setup docfx
       run: |
-        dotnet tool install --global docfx --version 2.71.1
+        dotnet tool install --global docfx --version ${{ env.DOCFX_VERSION }}  
         docfx -v
 
     - name: Build

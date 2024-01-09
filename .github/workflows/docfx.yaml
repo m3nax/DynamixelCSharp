@@ -32,8 +32,43 @@ env:
   DOCFX_VERSION: 'v2.74.1'
   
 jobs:
-  docfx:
+  # This job will run when a pull request is opened or synchronized
+  docfx-check-build:
+    if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
+    name: Check Documentation Build
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Setup docfx
+      run: |
+        dotnet tool install --global docfx --version ${{ env.DOCFX_VERSION }}  
+        docfx -v
+
+    - name: Build
+      run: dotnet build
+
+    - name: Generate Documentation
+      run:  docfx docs/docfx.json -o:./output/docs/
+
+    - name: Upload artifact
+      if: github.event.pull_request.draft == false
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./output/docs/
+
+  # This job will run when a pull request is merged
+  docfx-build-deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    name: Build and Deploy Documentation
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}    
@@ -47,10 +82,6 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}  
 
-    #- uses: nikeee/docfx-action@v1.0.0
-    #  name: Build Documentation
-    #  with:
-    #    args: docs/docfx.json
     - name: Setup docfx
       run: |
         dotnet tool install --global docfx --version ${{ env.DOCFX_VERSION }}  
@@ -62,21 +93,14 @@ jobs:
     - name: Generate Documentation
       run:  docfx docs/docfx.json -o:./output/docs/
 
-    # Setup Pages if is a push to main.
     - name: Setup Pages
-      if: github.ref == 'refs/heads/main'
       uses: actions/configure-pages@v4
 
-    # Upload the generated documentation as an artifact if the pull request is
-    # not a draft.
     - name: Upload artifact
-      if: github.event.pull_request.draft == false
       uses: actions/upload-pages-artifact@v3
       with:
         path: ./output/docs/
 
-    # Deploy the generated documentation to GitHub Pages if is a push to main.
     - name: Deploy to GitHub Pages
-      if: github.ref == 'refs/heads/main'
       id: deployment
       uses: actions/deploy-pages@v4

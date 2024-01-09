@@ -29,7 +29,7 @@ env:
   DOTNET_VERSION: |
     7.0.x
     8.0.x
-  DOCFX_VERSION: 'v2.74.1'
+  DOCFX_VERSION: '2.74.1'
   
 jobs:
   # This job will run when a pull request is opened or synchronized

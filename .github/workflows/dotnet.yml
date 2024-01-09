@@ -15,8 +15,8 @@ on:
     
 env:
   DOTNET_VERSION: |
-    '7.0.x'
-    '8.0.x'
+    7.0.x
+    8.0.x
 
 jobs:
   build:

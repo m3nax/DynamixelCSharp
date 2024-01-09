@@ -12,7 +12,7 @@ https://github.com/m3nax/DynamixelCSharp/releases
 
 | Release  | Version | Type   | Release Note (Changelog)                                       | .NET Targeting |
 |----------|---------|--------|----------------------------------------------------------------|----------------|
-| **NOT RELEASED**   | 8.0.0  | DEV |                                                          |7.0,8.0         |
+| **NOT RELEASED**   | 8.0.0  | DEV |                                                          |7.0, 8.0        |
 
 # Supported platforms
 

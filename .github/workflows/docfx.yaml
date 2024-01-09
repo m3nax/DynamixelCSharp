@@ -17,6 +17,11 @@ permissions:
 concurrency:
   group: "pages"
   cancel-in-progress: true
+
+env:
+  DOTNET_VERSION: |
+    7.0.x
+    8.0.x
   
 jobs:
   docfx:
@@ -32,8 +37,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: |
-          7.0.x
+        dotnet-version: ${{ env.DOTNET_VERSION }}  
 
     #- uses: nikeee/docfx-action@v1.0.0
     #  name: Build Documentation

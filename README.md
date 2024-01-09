@@ -12,19 +12,19 @@ https://github.com/m3nax/DynamixelCSharp/releases
 
 | Release  | Version | Type   | Release Note (Changelog)                                       | .NET Targeting |
 |----------|---------|--------|----------------------------------------------------------------|----------------|
-| **NOT RELEASED**  | 7.0.0 | DEV |                                                            |7.0            |
+| **NOT RELEASED**   | 8.0.0  | DEV |                                                          |7.0,8.0         |
 
 # Supported platforms
 
 | OS         | Arch        | Support  | Package Version |
 |------------|-------------|:--------:|-----------------|
-| linux      | arm32       | ❔      | >= 7.0.0        |
-| linux      | arm64       | ✅      | >= 7.0.0        |
-| linux      | amd64 (x64) | ✅      | >= 7.0.0        |
-| windows    | arm64       | ❔      | >= 7.0.0        |
-| windows    | amd64 (x64) | ✅      | >= 7.0.0        |
-| macOS      | arm64       | ❔      | >= 7.0.0        |
-| macOS      | amd64 (x64) | ❔      | >= 7.0.0        |
+| linux      | arm32       | ❔      | >= 8.0.0        |
+| linux      | arm64       | ✅      | >= 8.0.0        |
+| linux      | amd64 (x64) | ✅      | >= 8.0.0        |
+| windows    | arm64       | ❔      | >= 8.0.0        |
+| windows    | amd64 (x64) | ✅      | >= 8.0.0        |
+| macOS      | arm64       | ❔      | >= 8.0.0        |
+| macOS      | amd64 (x64) | ❔      | >= 8.0.0        |
 
 <div>❔ = not tested</div>
 <div>✅ = supported</div>

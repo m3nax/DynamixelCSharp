@@ -8,13 +8,11 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-#    paths:
-#    - '**.cs'
-#    - '**.csproj'
-#    - '.github/**'
     
 env:
-  DOTNET_VERSION: ' 7.0.x'
+  DOTNET_VERSION: |
+    7.0.x
+    8.0.x
 
 jobs:
   build:
@@ -25,10 +23,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - name: Check out code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         
@@ -46,10 +44,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check out code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}        
         

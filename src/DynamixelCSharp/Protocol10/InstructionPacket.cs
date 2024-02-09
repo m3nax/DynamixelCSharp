@@ -50,51 +50,60 @@ namespace DynamixelCSharp.Protocol10
         /// <summary>
         /// Parameters of the instruction.
         /// </summary>
-        public byte[] Parameters { get; private init; }
+        public IReadOnlyList<byte> Parameters { get; private init; }
 
         /// <summary>
         /// Length of the instruction packet.
         /// Formula: 1 (instruction) + n (parameters) + 1 (checksum).
         /// </summary>
-        public byte Length => (byte)(2 + Parameters.Length);
+        public byte Length => (byte)(2 + Parameters.Count);
 
         /// <summary>
         /// Checksum of the instruction packet.
         /// </summary>
-        public byte Checksum => ChecksumUtility.CalculateFrom(GetPacket());
-
-        /// <summary>
-        /// Implicit conversion to byte array.
-        /// </summary>
-        /// <param name="i"></param>
-        public static implicit operator byte[](InstructionPacket i) => i.ToArray();
+        public byte Checksum => ChecksumUtility.CalculateFrom(Packet);
 
         /// <summary>
         /// Return packet of the instruction packet.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<byte> GetPacket()
+        public IEnumerable<byte> Packet
         {
-            yield return DeviceId;
-            yield return Length;
-            yield return Instruction;
-
-            foreach (byte b in Parameters)
+            get
             {
-                yield return b;
+                yield return DeviceId;
+                yield return Length;
+                yield return Instruction;
+
+                foreach (byte b in Parameters)
+                {
+                    yield return b;
+                }
             }
         }
+
+        /// <summary>
+        /// Implicit conversion to byte array.
+        /// </summary>
+        /// <param name="i"></param>
+        public static implicit operator byte[](InstructionPacket i)
+            => ToByteArray(i);
+
+        /// <summary>
+        /// Convert instruction packet to byte array.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
+        public static byte[] ToByteArray(InstructionPacket i)
+            => i.ToArray();
 
         /// <inheritdoc/>
         public IEnumerator<byte> GetEnumerator()
         {
             yield return Header1;
             yield return Header2;
-            yield return DeviceId;
-            yield return Length;
-            yield return Instruction;
 
-            foreach (byte b in Parameters)
+            foreach (byte b in Packet)
             {
                 yield return b;
             }
@@ -107,11 +116,8 @@ namespace DynamixelCSharp.Protocol10
         {
             yield return Header1;
             yield return Header2;
-            yield return DeviceId;
-            yield return Length;
-            yield return Instruction;
 
-            foreach (byte b in Parameters)
+            foreach (byte b in Packet)
             {
                 yield return b;
             }

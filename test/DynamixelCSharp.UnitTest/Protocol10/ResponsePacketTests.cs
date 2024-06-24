@@ -10,7 +10,7 @@ namespace DynamixelCSharp.UnitTest.Protocol10
         {
             // Arrange
             // Smaller result is ping response, which is 6 bytes.
-            // In this case, we are testing for 5 bytes, removing the checksum.
+            // In this case, we are testing a result composed of only 5 bytes, without checksum.
             // Doc: https://emanual.robotis.com/docs/en/dxl/protocol1/#id-1-status-packet.
             var responseBytes = new byte[] { 0xFF, 0xFF, 0x01, 0x02, 0x00, };
 

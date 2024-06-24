@@ -6,11 +6,11 @@ namespace DynamixelCSharp.UnitTest.Protocol10
     {
         /// <summary>
         /// Test the checksum calculation.
-        /// Checksum is computed by summing all bytes in the packet and then inverting the result.
+        /// Checksum is computed by summing all bytes in the packet and then inverting the binary result.
         /// Packet is the array of bytes between the header and the checksum.
         /// </summary>
-        /// <param name="packet"></param>
-        /// <param name="expectedChecksum"></param>
+        /// <param name="packet">Packed to check.</param>
+        /// <param name="expectedChecksum">Expected checksum of packet.</param>
         [Theory]
 
         // Ping command (https://emanual.robotis.com/docs/en/dxl/protocol1/#ping)

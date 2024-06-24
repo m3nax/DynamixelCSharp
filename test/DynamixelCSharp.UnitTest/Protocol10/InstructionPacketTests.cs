@@ -20,6 +20,8 @@ namespace DynamixelCSharp.UnitTest.Protocol10
 
             // Assert
             Assert.Equal(expectedBytes, instructionPacket);
+            Assert.Equal(deviceId, instructionPacket.DeviceId);
+            Assert.Equal(instruction, instructionPacket.Instruction);
         }
 
         [Fact]
@@ -39,6 +41,8 @@ namespace DynamixelCSharp.UnitTest.Protocol10
 
             // Assert
             Assert.Equal(expectedBytes, instructionPacket);
+            Assert.Equal(deviceId, instructionPacket.DeviceId);
+            Assert.Equal(instruction, instructionPacket.Instruction);
         }
     }
 }

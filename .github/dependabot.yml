@@ -13,7 +13,6 @@ updates:
       interval: "weekly"
       day: "friday"
     target-branch: "main"
-    groups:
       
   # Maintain dependencies for NuGet packages
   - package-ecosystem: "nuget" 

@@ -4,8 +4,12 @@ queue_rules:
       - base=main
       - label!=do-not-merge
       - "#approved-reviews-by>=1"
-      - "title~=^(fix|feat|docs|style|refactor|perf|test|build|ci|chore|revert)(?:\\\
+      - or:
+          - "title~=^(fix|feat|docs|style|refactor|perf|test|build|ci|chore|revert)(?:\\\
         (.+\\))?:"
+          - and:
+              - "title~=^Bump .+"
+              - author=dependabot[bot]
     merge_conditions: []
     merge_method: rebase
     update_method: rebase
@@ -20,8 +24,12 @@ pull_request_rules:
       - base=main
       - label!=do-not-merge
       - "#approved-reviews-by>=1"
-      - "title~=^(fix|feat|docs|style|refactor|perf|test|build|ci|chore|revert)(?:\\\
+      - or:
+          - "title~=^(fix|feat|docs|style|refactor|perf|test|build|ci|chore|revert)(?:\\\
         (.+\\))?:"
+          - and:
+              - "title~=^Bump .+"
+              - author=dependabot[bot]
     actions:
       delete_head_branch: {}
       queue:

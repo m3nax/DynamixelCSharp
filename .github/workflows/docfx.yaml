@@ -27,8 +27,8 @@ concurrency:
 
 env:
   DOTNET_VERSION: |
-    7.0.x
     8.0.x
+    9.0.x
   DOCFX_VERSION: '2.74.1'
   
 jobs:

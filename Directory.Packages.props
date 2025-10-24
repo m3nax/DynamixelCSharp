@@ -5,7 +5,7 @@
     </PropertyGroup>
     <ItemGroup>
         <!-- Microsoft packages -->
-        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
         <PackageVersion Include="Microsoft.NET.ILLink.Analyzers" Version="7.0.100-1.23401.1" />
         <PackageVersion Include="System.IO.Ports" Version="9.0.10" />
         <!-- 3rd party packages -->

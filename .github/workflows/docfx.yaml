@@ -27,9 +27,8 @@ concurrency:
 
 env:
   DOTNET_VERSION: |
-    8.0.x
-    9.0.x
-  DOCFX_VERSION: '2.74.1'
+    10.0.x
+  DOCFX_VERSION: '2.78.4'
   
 jobs:
   # This job will run when a pull request is opened or synchronized

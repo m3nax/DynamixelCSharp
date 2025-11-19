@@ -10,21 +10,21 @@ Unofficial cross-platform cross-arch library for the communication with dynamixe
 
 https://github.com/m3nax/DynamixelCSharp/releases
 
-| Release  | Version | Type   | Release Note (Changelog)                                       | .NET Targeting |
-|----------|---------|--------|----------------------------------------------------------------|----------------|
-| **NOT RELEASED**   | 8.0.0  | DEV |                                                          | 8.0, 9.0       |
+| Release  | Version | Type    | Release Note (Changelog)                                       | .NET Targeting |
+|----------|---------|---------|----------------------------------------------------------------|----------------|
+| **NOT RELEASED**   | 10.0.0  | DEV |                                                          | 10.0           |
 
 # Supported platforms
 
 | OS         | Arch        | Support  | Package Version |
 |------------|-------------|:--------:|-----------------|
-| linux      | arm32       | ❔      | >= 8.0.0        |
-| linux      | arm64       | ✅      | >= 8.0.0        |
-| linux      | amd64 (x64) | ✅      | >= 8.0.0        |
-| windows    | arm64       | ❔      | >= 8.0.0        |
-| windows    | amd64 (x64) | ✅      | >= 8.0.0        |
-| macOS      | arm64       | ❔      | >= 8.0.0        |
-| macOS      | amd64 (x64) | ❔      | >= 8.0.0        |
+| linux      | arm32       | ❔      | >= 10.0.0        |
+| linux      | arm64       | ✅      | >= 10.0.0        |
+| linux      | amd64 (x64) | ✅      | >= 10.0.0        |
+| windows    | arm64       | ❔      | >= 10.0.0        |
+| windows    | amd64 (x64) | ✅      | >= 10.0.0        |
+| macOS      | arm64       | ❔      | >= 10.0.0        |
+| macOS      | amd64 (x64) | ❔      | >= 10.0.0        |
 
 <div>❔ = not tested</div>
 <div>✅ = supported</div>

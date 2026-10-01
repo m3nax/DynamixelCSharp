@@ -6,7 +6,7 @@
   <ItemGroup>
     <!-- Microsoft packages -->
     <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.11.2" />
-    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.3.3" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.4.1" />
     <PackageVersion Include="System.IO.Ports" Version="10.0.12" />
     <!-- 3rd party packages -->
     <PackageVersion Include="xunit.v3.mtp-v2" Version="4.0.1" />

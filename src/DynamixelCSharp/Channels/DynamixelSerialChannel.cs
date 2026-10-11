@@ -54,7 +54,7 @@ namespace DynamixelCSharp.Channels
                 throw new ArgumentException($"'{nameof(portName)}' cannot be null or whitespace.", nameof(portName));
             }
 
-            if (baudRate < 0)
+            if (baudRate <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(baudRate), $"'{nameof(baudRate)}' cannot be less or equal to zero.");
             }

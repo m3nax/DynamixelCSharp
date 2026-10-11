@@ -11,20 +11,52 @@ namespace DynamixelCSharp.UnitTest.Channels
             TimeSpan.FromMilliseconds(-1),
         };
 
-        [Fact]
-        public void Ctor_DefaultTimeout_Is50Milliseconds()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(int.MinValue)]
+        public void Constructor_InvalidBaudRate_ThrowsArgumentOutOfRangeException(int baudRate)
         {
             // Arrange
 
             // Act
-            using var channel = new DynamixelSerialChannel("COM1", 1000000);
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => new DynamixelSerialChannel("COM3", baudRate));
 
             // Assert
+            Assert.Equal("baudRate", ex.ParamName);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(int.MinValue)]
+        public void Constructor_InvalidBaudRateWithReadTimeout_ThrowsArgumentOutOfRangeException(int baudRate)
+        {
+            // Arrange
+
+            // Act
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => new DynamixelSerialChannel("COM3", baudRate, TimeSpan.FromMilliseconds(50)));
+
+            // Assert
+            Assert.Equal("baudRate", ex.ParamName);
+        }
+
+        [Fact]
+        public void Constructor_ValidBaudRate_SetsProperties()
+        {
+            // Arrange
+
+            // Act
+            using var channel = new DynamixelSerialChannel("COM3", 57600);
+
+            // Assert
+            Assert.Equal("COM3", channel.PortName);
+            Assert.Equal(57600, channel.BaudRate);
             Assert.Equal(TimeSpan.FromMilliseconds(50), channel.ReadTimeout);
         }
 
         [Fact]
-        public void Ctor_CustomTimeout_IsStored()
+        public void Constructor_CustomTimeout_IsStored()
         {
             // Arrange
             var timeout = TimeSpan.FromMilliseconds(200);
@@ -38,7 +70,7 @@ namespace DynamixelCSharp.UnitTest.Channels
 
         [Theory]
         [MemberData(nameof(NonPositiveTimeouts))]
-        public void Ctor_NonPositiveTimeout_ThrowsArgumentOutOfRangeException(TimeSpan timeout)
+        public void Constructor_NonPositiveTimeout_ThrowsArgumentOutOfRangeException(TimeSpan timeout)
         {
             // Arrange
 

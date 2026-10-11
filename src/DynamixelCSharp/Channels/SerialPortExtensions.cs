@@ -1,4 +1,4 @@
-﻿using System.IO.Ports;
+using System.Diagnostics;
 
 namespace DynamixelCSharp.Channels
 {
@@ -11,13 +11,15 @@ namespace DynamixelCSharp.Channels
         /// <param name="port">Serial port.</param>
         /// <param name="bytesAmount">Amount of bytes to wait.</param>
         /// <param name="timeout">Timeout.</param>
-        public static void WaitForData(this SerialPort port, int bytesAmount, TimeSpan timeout)
+        public static void WaitForData(this ISerialPort port, int bytesAmount, TimeSpan timeout)
         {
-            var timeoutDatetime = DateTime.Now.Add(timeout);
+            // Stopwatch is monotonic: unlike DateTime.Now it is not affected by clock or DST changes,
+            // and it does not overflow for very large timeouts.
+            var stopwatch = Stopwatch.StartNew();
 
             while (port.BytesToRead < bytesAmount)
             {
-                if (DateTime.Now > timeoutDatetime)
+                if (stopwatch.Elapsed > timeout)
                 {
                     throw new TimeoutException("Timeout reached while waiting for data.");
                 }

@@ -1,5 +1,3 @@
-﻿using System.IO.Ports;
-
 namespace DynamixelCSharp.Channels
 {
     /// <summary>
@@ -15,7 +13,7 @@ namespace DynamixelCSharp.Channels
         /// <summary>
         /// Serial port used for communication.
         /// </summary>
-        private readonly SerialPort serialPort = new SerialPort();
+        private readonly ISerialPort serialPort;
 
         private bool disposedValue;
 
@@ -38,6 +36,18 @@ namespace DynamixelCSharp.Channels
         /// <param name="readTimeout">Read timeout.</param>
         /// <exception cref="NotImplementedException"></exception>
         public DynamixelSerialChannel(string portName, int baudRate, TimeSpan readTimeout)
+            : this(portName, baudRate, readTimeout, serialPort: null)
+        {
+        }
+
+        /// <summary>
+        /// Create a new serial channel that communicates through the given serial port.
+        /// </summary>
+        /// <param name="portName">Name of serial port.</param>
+        /// <param name="baudRate">Baud rate of serial port.</param>
+        /// <param name="readTimeout">Read timeout.</param>
+        /// <param name="serialPort">Serial port to use, or <see langword="null"/> to use a <see cref="System.IO.Ports.SerialPort"/>.</param>
+        internal DynamixelSerialChannel(string portName, int baudRate, TimeSpan readTimeout, ISerialPort? serialPort)
         {
             if (string.IsNullOrWhiteSpace(portName))
             {
@@ -57,6 +67,9 @@ namespace DynamixelCSharp.Channels
             PortName = portName;
             BaudRate = baudRate;
             ReadTimeout = readTimeout;
+
+            // Created after validation, so an invalid argument does not leak a serial port.
+            this.serialPort = serialPort ?? new SerialPortAdapter();
         }
 
         /// <inheritdoc/>
@@ -101,7 +114,7 @@ namespace DynamixelCSharp.Channels
 
             lock (comLock)
             {
-                ConfigureAndOpenSerialPort();
+                serialPort.Open(this.PortName, this.BaudRate);
 
                 Status = DynamixelChannelStatus.Open;
             }
@@ -151,25 +164,11 @@ namespace DynamixelCSharp.Channels
                 if (disposing)
                 {
                     this.Close();
+                    serialPort.Dispose();
                 }
 
                 disposedValue = true;
             }
-        }
-
-        /// <summary>
-        /// Configure the serial port for Dynamixel communication and open it.
-        /// </summary>
-        private void ConfigureAndOpenSerialPort()
-        {
-            serialPort.PortName = this.PortName;
-            serialPort.BaudRate = this.BaudRate;
-            serialPort.Parity = Parity.None;
-            serialPort.DataBits = 8;
-            serialPort.StopBits = StopBits.One;
-            serialPort.Handshake = Handshake.None;
-
-            serialPort.Open();
         }
     }
 }

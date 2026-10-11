@@ -1,4 +1,5 @@
-﻿using DynamixelCSharp.Channels;
+﻿using System.Diagnostics;
+using DynamixelCSharp.Channels;
 
 namespace DynamixelCSharp.UnitTest.Channels
 {
@@ -16,7 +17,7 @@ namespace DynamixelCSharp.UnitTest.Channels
             // Arrange
 
             // Act
-            var channel = new DynamixelSerialChannel("COM1", 1000000);
+            using var channel = new DynamixelSerialChannel("COM1", 1000000);
 
             // Assert
             Assert.Equal(TimeSpan.FromMilliseconds(50), channel.ReadTimeout);
@@ -29,7 +30,7 @@ namespace DynamixelCSharp.UnitTest.Channels
             var timeout = TimeSpan.FromMilliseconds(200);
 
             // Act
-            var channel = new DynamixelSerialChannel("COM1", 1000000, timeout);
+            using var channel = new DynamixelSerialChannel("COM1", 1000000, timeout);
 
             // Assert
             Assert.Equal(timeout, channel.ReadTimeout);
@@ -47,6 +48,41 @@ namespace DynamixelCSharp.UnitTest.Channels
             // Assert
             var exception = Assert.Throws<ArgumentOutOfRangeException>(ctor);
             Assert.Equal("readTimeout", exception.ParamName);
+        }
+
+        [Fact]
+        public void Send_ResponseArrivesWithinReadTimeout_ReturnsResponse()
+        {
+            // Arrange
+            // The response arrives after the 50 ms default, so this only passes if Send waits for ReadTimeout.
+            byte[] command = [0xFF, 0xFF, 0x01, 0x02, 0x01, 0xFB];
+            byte[] response = [0xFF, 0xFF, 0x01, 0x02, 0x00, 0xFC];
+            var stopwatch = Stopwatch.StartNew();
+            using var port = new FakeSerialPort(() => stopwatch.ElapsedMilliseconds >= 100 ? response.Length : 0, response);
+            using var channel = new DynamixelSerialChannel("COM1", 1000000, TimeSpan.FromSeconds(1), port);
+
+            // Act
+            var result = channel.Send(command, response.Length);
+
+            // Assert
+            Assert.Equal(command, port.Written);
+            Assert.Equal(response, result);
+        }
+
+        [Fact]
+        public void Send_NoResponse_ThrowsTimeoutExceptionAfterReadTimeout()
+        {
+            // Arrange
+            using var port = new FakeSerialPort(() => 0);
+            using var channel = new DynamixelSerialChannel("COM1", 1000000, TimeSpan.FromMilliseconds(50), port);
+            var stopwatch = Stopwatch.StartNew();
+
+            // Act
+            var send = () => channel.Send([0xFF, 0xFF, 0x01, 0x02, 0x01, 0xFB], 6);
+
+            // Assert
+            Assert.Throws<TimeoutException>(send);
+            Assert.InRange(stopwatch.ElapsedMilliseconds, 45, 500);
         }
     }
 }

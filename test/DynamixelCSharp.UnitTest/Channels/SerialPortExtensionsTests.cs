@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using DynamixelCSharp.Channels;
 
 namespace DynamixelCSharp.UnitTest.Channels
@@ -9,10 +9,10 @@ namespace DynamixelCSharp.UnitTest.Channels
         public void WaitForData_DataAlreadyAvailable_ReturnsWithoutException()
         {
             // Arrange
-            Func<int> bytesAvailable = () => 5;
+            using var port = new FakeSerialPort(() => 5);
 
             // Act
-            var exception = Record.Exception(() => SerialPortExtensions.WaitForData(bytesAvailable, 5, TimeSpan.FromMilliseconds(500)));
+            var exception = Record.Exception(() => port.WaitForData(5, TimeSpan.FromMilliseconds(500)));
 
             // Assert
             Assert.Null(exception);
@@ -23,54 +23,44 @@ namespace DynamixelCSharp.UnitTest.Channels
         {
             // Arrange
             var stopwatch = Stopwatch.StartNew();
-            Func<int> bytesAvailable = () => stopwatch.ElapsedMilliseconds >= 20 ? 5 : 0;
+            using var port = new FakeSerialPort(() => stopwatch.ElapsedMilliseconds >= 20 ? 5 : 0);
 
             // Act
-            var exception = Record.Exception(() => SerialPortExtensions.WaitForData(bytesAvailable, 5, TimeSpan.FromSeconds(1)));
+            var exception = Record.Exception(() => port.WaitForData(5, TimeSpan.FromSeconds(1)));
 
             // Assert
             Assert.Null(exception);
         }
 
         [Fact]
-        public void WaitForData_NoDataWithinTimeout_ThrowsTimeoutException()
+        public void WaitForData_MaxValueTimeout_DataArrives_DoesNotThrow()
         {
             // Arrange
-            Func<int> bytesAvailable = () => 0;
+            var stopwatch = Stopwatch.StartNew();
+            using var port = new FakeSerialPort(() => stopwatch.ElapsedMilliseconds >= 20 ? 5 : 0);
 
             // Act
-            var action = () => SerialPortExtensions.WaitForData(bytesAvailable, 5, TimeSpan.FromMilliseconds(50));
+            var exception = Record.Exception(() => port.WaitForData(5, TimeSpan.MaxValue));
 
             // Assert
-            Assert.Throws<TimeoutException>(action);
+            Assert.Null(exception);
         }
 
-        [Fact]
-        public void WaitForData_NoData_WaitsAtLeastTimeout()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(3)]
+        public void WaitForData_NotEnoughDataWithinTimeout_ThrowsTimeoutExceptionAfterTimeout(int bytesAvailable)
         {
             // Arrange
-            Func<int> bytesAvailable = () => 0;
+            using var port = new FakeSerialPort(() => bytesAvailable);
             var stopwatch = Stopwatch.StartNew();
 
             // Act
-            Assert.Throws<TimeoutException>(() => SerialPortExtensions.WaitForData(bytesAvailable, 5, TimeSpan.FromMilliseconds(50)));
-            stopwatch.Stop();
-
-            // Assert
-            Assert.True(stopwatch.ElapsedMilliseconds >= 45, $"Elapsed {stopwatch.ElapsedMilliseconds} ms, expected at least 45 ms.");
-        }
-
-        [Fact]
-        public void WaitForData_InsufficientData_ThrowsTimeoutException()
-        {
-            // Arrange
-            Func<int> bytesAvailable = () => 3;
-
-            // Act
-            var action = () => SerialPortExtensions.WaitForData(bytesAvailable, 5, TimeSpan.FromMilliseconds(50));
+            var action = () => port.WaitForData(5, TimeSpan.FromMilliseconds(50));
 
             // Assert
             Assert.Throws<TimeoutException>(action);
+            Assert.True(stopwatch.ElapsedMilliseconds >= 45, $"Elapsed {stopwatch.ElapsedMilliseconds} ms, expected at least 45 ms.");
         }
     }
 }

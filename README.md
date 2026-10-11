@@ -45,3 +45,16 @@ dotnet tool update -g docfx
 # Build documentation site and serve it on localhost:8080
 docfx docs/docfx.json -o:./app/docs/ --serve
 ```
+
+# Documentation site (Docker)
+```bash
+# Build the image (builds the documentation site with docfx and serves it with nginx)
+docker build -t dynamixelcsharp-docs .
+
+# Run the container
+docker run --rm -p 8080:80 dynamixelcsharp-docs
+```
+
+The site is then available at http://localhost:8080.
+
+The docfx version can be overridden with `--build-arg DOCFX_VERSION=<version>`.

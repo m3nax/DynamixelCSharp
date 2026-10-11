@@ -1,0 +1,7 @@
+.git
+**/bin
+**/obj
+output
+docs/_site
+docs/api/*.yml
+docs/api/.manifest

@@ -12,6 +12,11 @@ namespace DynamixelCSharp.Channels
         int BytesToRead { get; }
 
         /// <summary>
+        /// Discard all bytes currently in the read buffer.
+        /// </summary>
+        void DiscardInBuffer();
+
+        /// <summary>
         /// Configure the serial port for Dynamixel communication and open it.
         /// </summary>
         /// <param name="portName">Name of serial port.</param>

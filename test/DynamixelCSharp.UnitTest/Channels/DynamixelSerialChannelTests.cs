@@ -116,5 +116,62 @@ namespace DynamixelCSharp.UnitTest.Channels
             Assert.Throws<TimeoutException>(send);
             Assert.InRange(stopwatch.ElapsedMilliseconds, 45, 500);
         }
+
+        [Fact]
+        public void Send_AfterTimeout_LateReplyIsDiscarded_ReturnsOwnResponse()
+        {
+            // Arrange
+            byte[] command1 = [0xFF, 0xFF, 0x01, 0x04, 0x02, 0x2B, 0x01, 0xCC]; // read temperature
+            byte[] reply1 = [0xFF, 0xFF, 0x01, 0x03, 0x00, 0x20, 0xDB];
+            byte[] command2 = [0xFF, 0xFF, 0x01, 0x04, 0x02, 0x24, 0x02, 0xD2]; // read position
+            byte[] reply2 = [0xFF, 0xFF, 0x01, 0x04, 0x00, 0x00, 0x02, 0xF8];
+            using var port = new FakeSerialPort();
+            using var channel = new DynamixelSerialChannel("COM1", 1000000, TimeSpan.FromMilliseconds(50), port);
+            Assert.Throws<TimeoutException>(() => channel.Send(command1, reply1.Length));
+            port.EnqueueResponse(reply1);                      // late reply to command1 lands in the buffer
+            port.OnWrite = _ => port.EnqueueResponse(reply2);  // servo answers command2
+
+            // Act
+            var result = channel.Send(command2, reply2.Length);
+
+            // Assert
+            Assert.Equal(command2, port.Written);
+            Assert.Equal(reply2, result);
+            Assert.Equal(0, port.BytesToRead);
+        }
+
+        [Fact]
+        public void Send_PartialStaleBytesInBuffer_ReturnsOwnResponse()
+        {
+            // Arrange
+            byte[] command2 = [0xFF, 0xFF, 0x01, 0x04, 0x02, 0x24, 0x02, 0xD2]; // read position
+            byte[] reply2 = [0xFF, 0xFF, 0x01, 0x04, 0x00, 0x00, 0x02, 0xF8];
+            using var port = new FakeSerialPort();
+            using var channel = new DynamixelSerialChannel("COM1", 1000000, TimeSpan.FromMilliseconds(50), port);
+            port.EnqueueResponse([0xFF, 0xFF, 0x01]);          // partial stale packet left in the buffer
+            port.OnWrite = _ => port.EnqueueResponse(reply2);  // servo answers command2
+
+            // Act
+            var result = channel.Send(command2, reply2.Length);
+
+            // Assert
+            Assert.Equal(reply2, result);
+        }
+
+        [Fact]
+        public void Send_DiscardsInputBufferBeforeWrite()
+        {
+            // Arrange
+            byte[] reply = [0xFF, 0xFF, 0x01, 0x02, 0x00, 0xFC];
+            using var port = new FakeSerialPort();
+            using var channel = new DynamixelSerialChannel("COM1", 1000000, TimeSpan.FromMilliseconds(50), port);
+            port.OnWrite = _ => port.EnqueueResponse(reply);
+
+            // Act
+            channel.Send([0xFF, 0xFF, 0x01, 0x02, 0x01, 0xFB], 6);
+
+            // Assert
+            Assert.Equal(1, port.DiscardInBufferCalls);
+        }
     }
 }

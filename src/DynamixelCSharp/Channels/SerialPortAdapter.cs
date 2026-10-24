@@ -32,6 +32,9 @@ namespace DynamixelCSharp.Channels
         public void Close() => serialPort.Close();
 
         /// <inheritdoc/>
+        public void DiscardInBuffer() => serialPort.DiscardInBuffer();
+
+        /// <inheritdoc/>
         public void Write(byte[] buffer, int offset, int count) => serialPort.Write(buffer, offset, count);
 
         /// <inheritdoc/>

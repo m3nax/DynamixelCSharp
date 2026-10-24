@@ -135,6 +135,10 @@ namespace DynamixelCSharp.Channels
 
             lock (comLock)
             {
+                // Drop bytes left over from a previous command (for example a reply that arrived
+                // after a TimeoutException). Otherwise they would be returned as this command's response.
+                serialPort.DiscardInBuffer();
+
                 this.serialPort.Write(command, 0, command.Length);
 
                 serialPort.WaitForData(responseLength, this.ReadTimeout);

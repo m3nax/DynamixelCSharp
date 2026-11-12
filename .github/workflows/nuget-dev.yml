@@ -1,0 +1,52 @@
+# Publishes development NuGet packages to GitHub Packages on every push to main.
+
+name: Publish dev NuGet package
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  DOTNET_VERSION: 10.0.x
+
+jobs:
+  publish:
+    name: Pack and publish dev package
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v7
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v6
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore -c Release
+
+    - name: Test
+      run: dotnet test --no-build -c Release
+
+    - name: Pack
+      run: dotnet pack src/DynamixelCSharp/DynamixelCSharp.csproj --no-build -c Release -p:Version=0.1.0-dev.${{ github.run_number }} -o artifacts
+
+    - name: Add GitHub Packages source
+      run: dotnet nuget add source --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+
+    - name: Push package
+      run: dotnet nuget push "artifacts/*.nupkg" --source github --skip-duplicate
+
+    - name: Upload package artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-dev-package
+        path: artifacts/*.nupkg

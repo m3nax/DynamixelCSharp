@@ -14,6 +14,21 @@ https://github.com/m3nax/DynamixelCSharp/releases
 |----------|---------|---------|----------------------------------------------------------------|----------------|
 | **NOT RELEASED**   | 10.0.0  | DEV |                                                          | 10.0           |
 
+# Development packages
+
+Development builds of the library are published to GitHub Packages on every push to `main`.
+
+NuGet source: `https://nuget.pkg.github.com/m3nax/index.json`
+
+Reading from this source requires a personal access token (classic) with the `read:packages` scope.
+
+```bash
+dotnet nuget add source --username <github-username> --password <personal-access-token> --store-password-in-clear-text --name github-m3nax "https://nuget.pkg.github.com/m3nax/index.json"
+dotnet add package DynamixelCSharp --prerelease
+```
+
+Development versions look like `0.1.0-dev.N`, where `N` is the workflow run number.
+
 # Supported platforms
 
 | OS         | Arch        | Support  | Package Version |

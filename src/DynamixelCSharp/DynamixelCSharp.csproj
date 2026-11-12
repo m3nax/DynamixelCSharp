@@ -5,6 +5,12 @@
     <Nullable>enable</Nullable>
     <PublishTrimmed>true</PublishTrimmed>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageId>DynamixelCSharp</PackageId>
+    <Authors>m3nax</Authors>
+    <Description>C# library for communicating with Dynamixel servo motors</Description>
+    <RepositoryUrl>https://github.com/m3nax/DynamixelCSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +19,10 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="DynamixelCSharp.UnitTest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

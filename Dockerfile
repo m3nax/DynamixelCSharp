@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:11.0 AS build
 # Keep in sync with env.DOCFX_VERSION in .github/workflows/docfx.yaml
 ARG DOCFX_VERSION=2.78.4
 ENV PATH="${PATH}:/root/.dotnet/tools"

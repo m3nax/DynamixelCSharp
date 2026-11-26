@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Threading;
 
 namespace DynamixelCSharp.Channels
 {
@@ -24,7 +25,19 @@ namespace DynamixelCSharp.Channels
                     throw new TimeoutException("Timeout reached while waiting for data.");
                 }
 
-                Thread.Sleep(1);
+                double elapsedMs = stopwatch.Elapsed.TotalMilliseconds;
+
+                if (elapsedMs < 1)
+                {
+                    Thread.SpinWait(1);
+                }
+                else if (elapsedMs < 5)                {
+                    Thread.Yield();
+                }
+                else
+                {
+                    Thread.Sleep(1);
+                }
             }
         }
     }

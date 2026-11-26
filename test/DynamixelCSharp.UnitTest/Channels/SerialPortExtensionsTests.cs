@@ -62,5 +62,21 @@ namespace DynamixelCSharp.UnitTest.Channels
             Assert.Throws<TimeoutException>(action);
             Assert.True(stopwatch.ElapsedMilliseconds >= 45, $"Elapsed {stopwatch.ElapsedMilliseconds} ms, expected at least 45 ms.");
         }
+
+        [Fact]
+        public void WaitForData_LowLatencyResponse_ReturnsQuickly()
+        {
+            // Arrange
+            var stopwatch = Stopwatch.StartNew();
+            // Data arrives after 2ms
+            using var port = new FakeSerialPort(() => stopwatch.ElapsedMilliseconds >= 2 ? 5 : 0);
+
+            // Act
+            port.WaitForData(5, TimeSpan.FromMilliseconds(100));
+
+            // Assert
+            var elapsed = stopwatch.ElapsedMilliseconds;
+            Assert.True(elapsed < 10, $"Latency too high: {elapsed} ms");
+        }
     }
 }

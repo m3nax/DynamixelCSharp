@@ -31,7 +31,8 @@ namespace DynamixelCSharp.Channels
                 {
                     Thread.SpinWait(1);
                 }
-                else if (elapsedMs < 5)                {
+                else if (elapsedMs < 5)
+                {
                     Thread.Yield();
                 }
                 else
